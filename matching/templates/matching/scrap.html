@@ -1,0 +1,22 @@
+{% extends "admin/base_site.html" %}
+
+{% block content %}
+<form method="POST">
+  {{ search }}
+  <input type="submit" value="Query it">
+  {% csrf_token %}
+</form>
+
+<h3>Search Result - {{ search.cleaned_data.destination }} </h3>
+
+{% if new_ammount > 0 %}
+  <p>Count: <strong>{{ new_ammount }}</strong></p>
+{% endif %}
+
+{% for p in result %}
+  <h4>{{ p.name }}</h4>
+  <p>{{ p.place_id }}</p>
+  <p>{{ p.geo_location }}</p>
+{% endfor %}
+
+{% endblock %}

@@ -26,6 +26,13 @@ DEBUG = True
 
 TEMPLATE_DEBUG = True
 
+# TEMPLATE_LOADERS = (
+#     ('pyjade.ext.django.Loader',(
+#         'django.template.loaders.filesystem.Loader',
+#         'django.template.loaders.app_directories.Loader',
+#     )),
+# )
+
 ALLOWED_HOSTS = ['*']
 
 SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
@@ -39,7 +46,9 @@ INSTALLED_APPS = (
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'matching',
+    'storages',
 )
+
 
 MIDDLEWARE_CLASSES = (
     'django.contrib.sessions.middleware.SessionMiddleware',

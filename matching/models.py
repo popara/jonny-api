@@ -82,7 +82,23 @@ class Venue(models.Model):
   instagram = models.URLField(max_length=200, blank=True)
   instagram_followers = models.IntegerField(default=0, blank=True)
   
-  beach = models.ForeignKey('Beach', related_name='venues', blank=True)
+  beach = models.ForeignKey('Beach', related_name='venues', blank=True, null=True)
+  lat = models.FloatField(default=0)
+  lng = models.FloatField(default=0)
+  
+  google_place_id = models.CharField(max_length=128, blank=True)
+
+  @classmethod 
+  def from_google_place(self, place):
+    return self.objects.create(**{
+      'name': place.name,
+      'address': place.formatted_address,
+      'website': place.website or '',
+      'lat': place.geo_location['lat'],
+      'lng': place.geo_location['lng'], 
+      'rating': place.rating or 0,
+      'google_place_id': place.place_id 
+    })
 
   def __unicode__(self):
     return "%s" % self.name 
@@ -116,6 +132,8 @@ class Beach(models.Model):
   type = models.CharField(max_length=10, choices=BEACH_TYPES)
   description = models.TextField()
 
-
+  lat = models.FloatField(default=0)
+  lng = models.FloatField(default=0)
+  
   def __unicode__(self):
     return "%s" % self.name 
