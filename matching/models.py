@@ -131,7 +131,7 @@ class Beach(models.Model):
   )
 
   name = models.CharField(max_length=200)
-  address = models.CharField(max_length=200)
+  address = models.CharField(max_length=200, blank=True)
   type = models.CharField(max_length=10, choices=BEACH_TYPES)
   description = models.TextField()
 
