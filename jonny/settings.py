@@ -20,6 +20,7 @@ BASE_DIR = os.path.dirname(os.path.dirname(__file__))
 
 # SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = 'nu04u00k0wm0^qsswa0paf4kyn1xofq6h@vd=l#d#(5l=$iys('
+GOOGLE_PLACES_API_KEY = os.environ.get('GOOGLE_PLACES_API_KEY', '')
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True

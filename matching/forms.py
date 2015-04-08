@@ -26,3 +26,10 @@ class GPSearchForm(forms.Form):
 
   def just_test(self):
     return self.cleaned_data['test']
+
+  def enquiry(self):
+    return {
+      'google': self.google(),
+      'dest': self.dest(),
+      'test': self.just_test(),
+    }

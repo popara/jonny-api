@@ -1,4 +1,7 @@
+import sys
 from django.db import models
+from googleplaces import GooglePlaces, types, lang
+from django.conf import settings 
 
 
 class Agent (models.Model):
@@ -137,3 +140,41 @@ class Beach(models.Model):
   
   def __unicode__(self):
     return "%s" % self.name 
+
+
+def get_class(dest):
+  return getattr(sys.modules[__name__], dest)
+  
+
+def enquire_google_places(**kwargs):
+  google = kwargs['google']
+  dest = kwargs['dest']
+  test = kwargs['test']
+
+
+  dest_cls = get_class(dest)
+
+  if not settings.GOOGLE_PLACES_API_KEY:
+    raise BaseException('Please Set Value of GOOGLE_PLACES_API_KEY in settings.py')
+
+  gp = GooglePlaces(settings.GOOGLE_PLACES_API_KEY)
+  qr = gp.nearby_search(**google)
+  places = qr.places 
+
+  ids = map(lambda p: p.place_id, places)
+  
+  existing_venues = dest_cls.objects.filter(google_place_id__in=ids)
+  existing_venue_ids = map(lambda v: v.google_place_id, existing_venues)
+
+  new_places = filter(lambda p: p.place_id not in existing_venue_ids, places)
+  
+  for p in new_places:
+    p.get_details()  
+
+  new_venues = map(lambda p: dest_cls.from_google_place(p), new_places)
+
+  if not test:
+    for v in new_venues:
+      v.save()
+
+  return (new_venues, dest_cls)
