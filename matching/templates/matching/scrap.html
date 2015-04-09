@@ -2,7 +2,7 @@
 
 {% block content %}
 <form method="POST">
-  {{ search }}
+  {{ search.as_p }}
   <input type="submit" value="Query it">
   {% csrf_token %}
 </form>
@@ -16,7 +16,7 @@
 {% for p in result %}
   <h4>{{ p.name }}</h4>
   <p>{{ p.place_id }}</p>
-  <p>{{ p.geo_location }}</p>
+  <p>{{ p.website|urlize }}</p>
 {% endfor %}
 
 {% endblock %}

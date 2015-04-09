@@ -151,7 +151,6 @@ def enquire_google_places(**kwargs):
   dest = kwargs['dest']
   test = kwargs['test']
 
-
   dest_cls = get_class(dest)
 
   if not settings.GOOGLE_PLACES_API_KEY:
@@ -164,7 +163,7 @@ def enquire_google_places(**kwargs):
   ids = map(lambda p: p.place_id, places)
   
   existing_venues = dest_cls.objects.filter(google_place_id__in=ids)
-  existing_venue_ids = map(lambda v: v.google_place_id, existing_venues)
+  existing_venue_ids = existing_venues.values('google_place_id')
 
   new_places = filter(lambda p: p.place_id not in existing_venue_ids, places)
   

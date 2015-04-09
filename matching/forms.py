@@ -1,14 +1,19 @@
 from django import forms
 
+from googleplaces import types
+
 class GPSearchForm(forms.Form):
   TARGETS = (
     ('ReCa', 'ReCa'),
     ('Accomodation', 'Accomodation'),
     ('Activity', 'Activity'),
   )
+  TYPES_LIST = list((getattr(types, t)) for t in dir(types) if t.startswith("TYPE"))
+  TYPES = map(lambda t: (t, t), TYPES_LIST)
+
   location = forms.CharField()
   keyword = forms.CharField()
-  types = forms.MultipleChoiceField(required=False)
+  types = forms.MultipleChoiceField(required=False, choices=TYPES)
 
   destination = forms.ChoiceField(choices=TARGETS)
 
