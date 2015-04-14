@@ -1,4 +1,5 @@
 import sys
+import itertools
 from django.db import models
 from googleplaces import GooglePlaces, types, lang
 from django.conf import settings 
@@ -93,7 +94,7 @@ class Venue(models.Model):
 
   @classmethod 
   def from_google_place(self, place):
-    return self.objects.create(**{
+    return self(**{
       'name': place.name,
       'address': place.formatted_address,
       'website': place.website or '',
@@ -160,13 +161,14 @@ def enquire_google_places(**kwargs):
   qr = gp.nearby_search(**google)
   places = qr.places 
 
+  gp_id = 'google_place_id'
   ids = map(lambda p: p.place_id, places)
-  
+
   existing_venues = dest_cls.objects.filter(google_place_id__in=ids)
-  existing_venue_ids = existing_venues.values('google_place_id')
+  existing_venue_ids = map(lambda v: v[gp_id], existing_venues.values(gp_id))
 
   new_places = filter(lambda p: p.place_id not in existing_venue_ids, places)
-  
+
   for p in new_places:
     p.get_details()  
 
