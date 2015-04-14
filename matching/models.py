@@ -75,7 +75,7 @@ class Venue(models.Model):
   description = models.TextField()
   website = models.URLField(max_length=150, blank=True)
   working_hours = models.ManyToManyField(WorkingHours)
-  price_range = models.CharField(max_length=5, blank=True)
+  price_range = models.CharField(max_length=30, blank=True)
   rating = models.FloatField(default=0, blank=True)
   facebook = models.URLField(max_length=200, blank=True)
   facebook_likes = models.IntegerField(default=0, blank=True)
