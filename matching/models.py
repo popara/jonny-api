@@ -74,7 +74,7 @@ class Venue(models.Model):
   type = models.CharField(max_length=10)
   description = models.TextField()
   website = models.URLField(max_length=150, blank=True)
-  working_hours = models.ManyToManyField(WorkingHours)
+  working_hours = models.ManyToManyField(WorkingHours, blank=True)
   price_range = models.CharField(max_length=30, blank=True)
   rating = models.FloatField(default=0, blank=True)
   facebook = models.URLField(max_length=200, blank=True)
@@ -118,7 +118,7 @@ class Accomodation(Venue):
   bathrooms = models.IntegerField(default=1)
   beds = models.IntegerField(default=1)
   pool = models.BooleanField(default=False)
-  airbnb = models.URLField(max_length=100)
+  airbnb = models.URLField(blank=True, max_length=100)
 
 class Activity(Venue):
   pass 
