@@ -24,6 +24,8 @@ class GPSearchForm(forms.Form):
       'location': self.cleaned_data['location'],
       'keyword': self.cleaned_data['keyword'],
       'types': self.cleaned_data['types'],
+      'lat_lng': {'lat': 39.007612, 'lng': 1.443494},
+      'radius': 30000,
     }
 
   def dest(self):
