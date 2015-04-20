@@ -15,6 +15,8 @@ class GPSearchForm(forms.Form):
   keyword = forms.CharField()
   types = forms.MultipleChoiceField(required=False, choices=TYPES)
 
+  lat = forms.FloatField(initial=39.007612)
+  lng = forms.FloatField(initial=1.443494)
   destination = forms.ChoiceField(choices=TARGETS)
 
   test = forms.BooleanField(required=False, initial=True)
@@ -24,7 +26,10 @@ class GPSearchForm(forms.Form):
       'location': self.cleaned_data['location'],
       'keyword': self.cleaned_data['keyword'],
       'types': self.cleaned_data['types'],
-      'lat_lng': {'lat': 39.007612, 'lng': 1.443494},
+      'lat_lng': {
+        'lat': self.cleaned_data['lat'],
+        'lng': self.cleaned_data['lng'],
+      },
       'radius': 30000,
     }
 

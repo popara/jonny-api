@@ -9,7 +9,8 @@ from rest_framework.generics import ListAPIView
 
 
 class PreScrap(generic.View):
-  def get(self, request, *args): 
+  def get(self, request, *args):
+
     return render(request, "matching/scrap.html", {
       'search': GPSearchForm()
       })
