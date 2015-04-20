@@ -17,6 +17,7 @@ class GPSearchForm(forms.Form):
 
   lat = forms.FloatField(initial=39.007612)
   lng = forms.FloatField(initial=1.443494)
+  radius = forms.FloatField(initial=3500)
   destination = forms.ChoiceField(choices=TARGETS)
 
   test = forms.BooleanField(required=False, initial=True)
@@ -30,7 +31,7 @@ class GPSearchForm(forms.Form):
         'lat': self.cleaned_data['lat'],
         'lng': self.cleaned_data['lng'],
       },
-      'radius': 30000,
+      'radius': self.cleaned_data['radius'],
     }
 
   def dest(self):
