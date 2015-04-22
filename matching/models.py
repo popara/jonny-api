@@ -70,19 +70,20 @@ class WorkingHours(models.Model):
 class Venue(models.Model):
   name = models.CharField(max_length=200)
   rating = models.FloatField(default=0, blank=True)
+  internal_rating = models.IntegerField(default=1)
+  ready = models.BooleanField(default=False)
+  contacts = models.ManyToManyField(Contact, blank=True)
   address = models.CharField(max_length=200)
   type = models.CharField(max_length=10)
   description = models.TextField()
 
+  internal_note = models.TextField(blank=True)
   lat = models.FloatField(default=0)
   lng = models.FloatField(default=0)
 
   website = models.URLField(max_length=150, blank=True)
-  internal_note = models.TextField(blank=True)
-  internal_rating = models.IntegerField(default=1)
   working_hours = models.ManyToManyField(WorkingHours, blank=True)
   price_range = models.CharField(max_length=30, blank=True)
-  contacts = models.ManyToManyField(Contact, blank=True)
   facebook = models.URLField(max_length=200, blank=True)
   facebook_likes = models.IntegerField(default=0, blank=True)
   facebook_acivity = models.CharField(max_length=200, blank=True)
@@ -95,8 +96,6 @@ class Venue(models.Model):
   beach = models.ForeignKey('Beach', related_name='venues', blank=True, null=True)
 
   google_place_id = models.CharField(max_length=128, blank=True)
-
-
 
   @classmethod 
   def from_google_place(self, place):
