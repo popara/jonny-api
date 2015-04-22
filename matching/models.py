@@ -124,6 +124,7 @@ class Accomodation(Venue):
   beds = models.IntegerField(default=1)
   pool = models.BooleanField(default=False)
   airbnb = models.URLField(blank=True, max_length=100)
+  stars = models.IntegerField(default=1)
 
 class Activity(Venue):
   pass 
