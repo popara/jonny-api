@@ -26,15 +26,15 @@ INSTALLED_APPS = (
     'plan',
     'storages',
     'rest_framework',
-    'corsheaders',
+    # 'corsheaders',
 )
 
 MIDDLEWARE_CLASSES = (
-    'corsheaders.middleware.CorsMiddleware',
+    # 'corsheaders.middleware.CorsMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
-    'corsheaders.middleware.CorsPostCsrfMiddleware',
+    # 'corsheaders.middleware.CorsPostCsrfMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.auth.middleware.SessionAuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
@@ -53,6 +53,7 @@ CORS_ORIGIN_WHITELIST = (
     'localhost:3333',
     'jonnyibiza.com',
     '127.0.0.1:8000',
+    'burning-torch-1428.firebaseapp.com',
 )
 CORS_URL_REGEX = r'^/api/.*$'
 CORS_REPLACE_HTTPS_REFERER = True

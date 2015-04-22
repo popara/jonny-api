@@ -1,9 +1,17 @@
 from rest_framework.serializers import ModelSerializer
 from .models import ReCa, Activity, Accomodation, Beach
 
-class ReCaSerializer(ModelSerializer):
+
+class VenueSerializer(ModelSerializer):
+
+  class Meta:
+    exclude = ('internal_notes', 'internal_rating')
+
+
+class ReCaSerializer(VenueSerializer):
   class Meta:
     model = ReCa
+
 
 
 class ActivitySerializer(ModelSerializer):
