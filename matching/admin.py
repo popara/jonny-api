@@ -6,6 +6,7 @@ class VenueAdmin(admin.ModelAdmin):
   list_display = ('name', 'internal_rating', 'ready', 'description',)
   list_filter = ('ready', 'internal_rating',)
   search_fields = ['name', 'description', 'address']
+  ordering = ['id']
   save_on_top = True
 
 
