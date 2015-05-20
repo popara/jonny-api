@@ -5,6 +5,7 @@ BASE_DIR = os.path.dirname(os.path.dirname(__file__))
 
 SECRET_KEY = 'nu04u00k0wm0^qsswa0paf4kyn1xofq6h@vd=l#d#(5l=$iys('
 GOOGLE_PLACES_API_KEY = os.environ.get('GOOGLE_PLACES_API_KEY', '')
+STRIPE_API_KEY = os.environ.get('STRIPE_API_KEY', '')
 
 DEBUG = True
 
@@ -51,6 +52,7 @@ CORS_ORIGIN_WHITELIST = (
     'herokuapp.com',
     'localhost:8000',
     'localhost:3333',
+    'localhost:3000',
     'jonnyibiza.com',
     '127.0.0.1:8000',
     'burning-torch-1428.firebaseapp.com',

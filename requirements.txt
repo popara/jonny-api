@@ -14,9 +14,12 @@ gunicorn==19.3.0
 Markdown==2.6.1
 psycopg2==2.6
 py==1.4.26
+pyjade==3.0.0
 pytest==2.7.0
 pytest-django==2.8.0
 pytest-pythonpath==0.6
 python-google-places==1.0.0
+requests==2.6.2
 six==1.9.0
 static3==0.5.1
+stripe==1.22.2
