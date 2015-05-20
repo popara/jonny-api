@@ -8,7 +8,7 @@ class ChargeView(APIView):
   def post(self, request):
     stripe.api_key = settings.STRIPE_API_KEY
     token = request.data['token']
-    amount = 1000
+    amount = 5000
     currency = "eur"
     desc = "Charging for a plan"
     try:
