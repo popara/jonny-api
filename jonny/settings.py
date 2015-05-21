@@ -56,7 +56,7 @@ CORS_ORIGIN_WHITELIST = (
     'jonnyibiza.com',
     '127.0.0.1:8000',
     'development.jonnyinc.divshot.io',
-    '*.jonnyinc.divshot.io',
+    'staging.jonnyinc.divshot.io',
     'jonnyinc.divshot.io',
     'burning-torch-1428.firebaseapp.com',
 )
