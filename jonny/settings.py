@@ -59,6 +59,9 @@ CORS_ORIGIN_WHITELIST = (
     'staging.jonnyinc.divshot.io',
     'jonnyinc.divshot.io',
     'burning-torch-1428.firebaseapp.com',
+    'development.jonny-experts.divshot.io',
+    'staging.jonny-experts.divshot.io',
+    'jonny-experts.divshot.io',
 )
 CORS_URL_REGEX = r'^/api/.*$'
 CORS_REPLACE_HTTPS_REFERER = True
@@ -74,6 +77,11 @@ CORS_ALLOW_HEADERS = (
 
 ROOT_URLCONF = 'jonny.urls'
 WSGI_APPLICATION = 'jonny.wsgi.application'
+
+
+AWS_ACCESS_KEY_ID = "AKIAJSRYIQNUCNW3VDZA"
+AWS_SECRET_ACCESS_KEY = os.environ.get('AWS_SECRET_ACCESS_KEY', '')
+AWS_S3_BUCKET = 'jonnyinc'
 
 
 DATABASES = {
@@ -95,4 +103,3 @@ STATIC_URL = '/static/'
 STATICFILES_DIRS = (
     os.path.join(BASE_DIR, 'static'),
 )
-
