@@ -6,7 +6,6 @@ from django.conf import settings
 from django_boto.s3.shortcuts import upload as UP
 from rest_framework.parsers import MultiPartParser, FileUploadParser
 from serializers import UploadResult
-from PIL import Image
 
 PRICE_IN_CENTS = 5000
 
