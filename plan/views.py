@@ -3,9 +3,13 @@ from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import status
 from django.conf import settings
-from django_boto.s3 import upload
-from django.core.files.base import ContentFile
-from rest_framework.parsers import MultiPartParser, FormParser
+from django_boto.s3.shortcuts import upload as UP
+from rest_framework.parsers import MultiPartParser, FileUploadParser
+
+from django.views.generic import View
+from django.middleware.csrf import get_token
+from django.views.decorators.csrf import ensure_csrf_cookie
+from django.http import HttpResponse as render
 
 PRICE_IN_CENTS = 5000
 
@@ -33,17 +37,20 @@ class ChargeView(APIView):
 
 
 class UploadImage(APIView):
-  parser_classes = (MultiPartParser, FormParser)
+  parser_classes = (FileUploadParser,)
   def post(self, request):
-    file = request.data['file']
-    print "---------"
-    print request
-    print file
-    print file.name
-    name = upload(file, prefix="experts")
-    print "nam"
+    name =  request.data['name']
+    print request.data
+    x = request.FILES['file']
+    name = UP(x, name=name, prefix="experts")
+    print "-done -- "
     print name
-    return Response(name)
+    return render(name)
+
+    
+@ensure_csrf_cookie
+def csrf(request):
+  return render(get_token(request))
 
 charge = ChargeView.as_view()
 upload = UploadImage.as_view()

@@ -53,6 +53,7 @@ CORS_ORIGIN_WHITELIST = (
     'localhost:8000',
     'localhost:3333',
     'localhost:3000',
+    '127.0.0.1:3000',
     'jonnyibiza.com',
     '127.0.0.1:8000',
     'development.jonnyinc.divshot.io',
@@ -74,14 +75,14 @@ CORS_ALLOW_HEADERS = (
     'x-csrftoken',
     'cache-control'
 )
-
+CORS_ALLOW_CREDENTIALS = True
 ROOT_URLCONF = 'jonny.urls'
 WSGI_APPLICATION = 'jonny.wsgi.application'
 
 
 AWS_ACCESS_KEY_ID = "AKIAJSRYIQNUCNW3VDZA"
 AWS_SECRET_ACCESS_KEY = os.environ.get('AWS_SECRET_ACCESS_KEY', '')
-AWS_S3_BUCKET = 'jonnyinc'
+AWS_STORAGE_BUCKET_NAME = 'jonnyinc'
 
 
 DATABASES = {
@@ -103,3 +104,6 @@ STATIC_URL = '/static/'
 STATICFILES_DIRS = (
     os.path.join(BASE_DIR, 'static'),
 )
+
+DEFAULT_FILE_STORAGE = 'storages.backends.s3boto.S3BotoStorage'
+STATICFILES_STORAGE = 'storages.backends.s3boto.S3BotoStorage'
