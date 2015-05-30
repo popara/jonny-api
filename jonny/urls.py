@@ -11,7 +11,6 @@ urlpatterns = patterns('',
     url(r'^api/venues/beaches', 'matching.views.beaches'),
 
 
-    url(r'^api/csrf', 'plan.views.csrf'),
     url(r'^api/charge', 'plan.views.charge'),
     url(r'^api/upload', 'plan.views.upload'),
 )

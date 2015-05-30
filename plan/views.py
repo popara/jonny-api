@@ -5,13 +5,13 @@ from rest_framework import status
 from django.conf import settings
 from django_boto.s3.shortcuts import upload as UP
 from rest_framework.parsers import MultiPartParser, FileUploadParser
-
-from django.views.generic import View
-from django.middleware.csrf import get_token
-from django.views.decorators.csrf import ensure_csrf_cookie
-from django.http import HttpResponse as render
+from serializers import UploadResult
+from PIL import Image
 
 PRICE_IN_CENTS = 5000
+
+import StringIO
+from django.core.files.uploadedfile import InMemoryUploadedFile
 
 class ChargeView(APIView):
   def post(self, request):
@@ -36,21 +36,21 @@ class ChargeView(APIView):
     return Response(":)")
 
 
+
+
 class UploadImage(APIView):
   parser_classes = (FileUploadParser,)
-  def post(self, request):
-    name =  request.data['name']
-    print request.data
-    x = request.FILES['file']
-    name = UP(x, name=name, prefix="experts")
-    print "-done -- "
-    print name
-    return render(name)
 
-    
-@ensure_csrf_cookie
-def csrf(request):
-  return render(get_token(request))
+  def post(self, request):
+    THUMB_SIZE = 120, 120
+    print request.data
+    file = request.data['file']
+
+    url = UP(file, prefix="experts")
+    thumb = url
+    data = UploadResult(data={"url":url, "thumb":thumb})
+    data.is_valid()
+    return Response(data.data)
 
 charge = ChargeView.as_view()
 upload = UploadImage.as_view()
