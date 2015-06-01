@@ -70,9 +70,9 @@ def test_plan_ready(api, ok):
         "expert_email": EXPERT_EMAIL,
     })
 
-    assert r.status_code == ok
-
     m1, m2 = mail.outbox
+
+    assert r.status_code == ok
     assert m1.to == [CLIENT_EMAIL]
     assert m2.to == [EXPERT_EMAIL]
 
@@ -127,6 +127,15 @@ def test_user_chat(api, ok):
     r = api.post("/api/notifications/user_chat", {
         "client_id": CLIENT_ID,
         "client_name": CLIENT_NAME,
-        "client_first_name": CLIENT_FIRST_NAME,
+        "client_first_name": CLIENT_NAME,
         "expert_name": EXPERT_NAME,
+        "expert_phone": EXPERT_PHONE_NO,
+        "snipp": snipp,
     })
+
+    m1 = mail.outbox[0]
+
+    assert m1.to == [MR_WOLF_EMAIL]
+    assert r.status_code == ok
+
+    assert r.data == EXPERT_PHONE_NO
