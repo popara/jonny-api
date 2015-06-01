@@ -7,7 +7,7 @@ CLIENT_EMAIL = "joe@doe.com"
 EXPERT_NAME = "Miguel"
 EXPERT_EMAIL = "miguel@hoe.com"
 MR_WOLF_EMAIL = "mrwolf@jonnyibiza.com"
-EXPERT_PHONE_NO = "+3431111111"
+EXPERT_PHONE_NO = "+15005550012"
 CLIENT_ID = "simleid:1"
 
 TEST_SID = "ACad0296f1fbf1bbd4901a869f13382f0f"
@@ -37,6 +37,13 @@ def test_user_charged(api, ok):
     # phoneno, email, client.name, client.id
     # To: traveler, Wolf, Expert
 
+
+    s = settings
+
+    s.TWILIO_SID = TEST_SID
+    s.TWILIO_TOKEN = TEST_TOKEN
+    s.TWILIO_DEFAULT_SENDER = TEST_NO
+
     r = api.post("/api/notifications/user_charged", {
         "client_name": CLIENT_NAME,
         "client_first_name": CLIENT_NAME,
@@ -54,7 +61,7 @@ def test_user_charged(api, ok):
     assert m3.to == [EXPERT_EMAIL]
 
     assert r.status_code == ok
-
+    assert r.data == EXPERT_PHONE_NO
 
 
 def test_plan_ready(api, ok):

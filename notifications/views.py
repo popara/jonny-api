@@ -22,6 +22,7 @@ class NotifyOnRegistration(APIView):
         client_name = request.data["client_name"]
         client_email = request.data["client_email"]
 
+        # To Traveler
         link = "https://www.jonnyibiza.com/"
         subject = "Welcome to Jonny Ibiza"
         body = "Hi %s - You have successfully registered with jonnyibiza.com.  Your login is: [login].  Cheers from Ibiza! - Jonny Ibiza" \
@@ -31,6 +32,7 @@ class NotifyOnRegistration(APIView):
         send_mail(subject, body, e_from, [client_email])
 
 
+        # To Mr. Wolf
         subject = "New traveler!"
         body = "Mr. Wolf - %s has just registered on jonnyibiza.com.  Click here to see the Traveler's details.  - The Jonny Ibiza Robot" \
             % (client_name)
@@ -44,6 +46,9 @@ class NotifyOnRegistration(APIView):
 
 class NotifyOnUserPurchase(APIView):
     def post(self, request):
+        client = get_twilio_client()
+        from_no = sender()
+
         client_first_name = request.data['client_first_name']
         client_name = request.data['client_name']
         client_email = request.data['client_email']
@@ -81,16 +86,21 @@ class NotifyOnUserPurchase(APIView):
         subject = "You are matched with a Traveler!"
         body = "Hi %s - Congrats! \n\n "\
             "You have a new Jonny Ibiza plan request.  \n\n"\
-            "Your new Traveler is %s.  You have 18 hours to submit the Plan to %s."\
-            "Click here to prepare the plan for %s. %s" \
-            "Click here %s if you have any problems or need any help from us."\
-            "Cheers! Jonny Ibiza" \
+            "Your new Traveler is %s.  \n\n You have 18 hours to submit the Plan to %s. \n\n "\
+            "Click here to prepare the plan for %s. \n\n %s \n\n" \
+            "Click here %s if you have any problems or need any help from us. \n\n"\
+            "Cheers! \n Jonny Ibiza" \
             % (expert_name, client_name, client_first_name, client_first_name, link, chat_link_us)
 
         send_mail(subject, body, e_from, [expert_email])
 
 
-        return Response("ok")
+        text = "You have a new Jonny Ibiza plan request. \n\n Click here to prepare plan for %s. \n\n %s \n\n" \
+            % (client_name, link)
+
+        m = client.messages.create(body=text, to=phoneno, from_=from_no)
+
+        return Response(m.status)
 
 
 class NotifyPlanIsReady(APIView):
