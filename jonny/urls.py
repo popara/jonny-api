@@ -14,7 +14,7 @@ urlpatterns = patterns('',
     url(r'^api/upload', 'upload.views.upload'),
 
     url(r'^api/notifications/user_registered', 'notifications.views.registered'),
-    url(r'^api/notifications/user_got_a_plan', 'notifications.views.got_plan'),
+    url(r'^api/notifications/user_charged', 'notifications.views.got_plan'),
     url(r'^api/notifications/plan_ready', 'notifications.views.plan_ready'),
     url(r'^api/notifications/wolf_chat', 'notifications.views.wolf_chat'),
     url(r'^api/notifications/jonny_chat', 'notifications.views.jonny_chat'),

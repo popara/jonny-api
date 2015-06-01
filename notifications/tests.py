@@ -37,7 +37,7 @@ def test_user_charged(api, ok):
     # phoneno, email, client.name, client.id
     # To: traveler, Wolf, Expert
 
-    r = api.post("/api/notifications/user_got_a_plan", {
+    r = api.post("/api/notifications/user_charged", {
         "client_name": CLIENT_NAME,
         "client_first_name": CLIENT_NAME,
         "client_email": CLIENT_EMAIL,
