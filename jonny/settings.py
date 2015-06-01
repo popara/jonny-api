@@ -1,11 +1,29 @@
 import os
 import dj_database_url
 
+def env(key):
+    return os.environ.get(key, '')
+
 BASE_DIR = os.path.dirname(os.path.dirname(__file__))
 
+JONNY_PLAN_PRICE_IN_CENTS = 5000
+JONNY_PLAN_CURRENCY = "eur"
+
 SECRET_KEY = 'nu04u00k0wm0^qsswa0paf4kyn1xofq6h@vd=l#d#(5l=$iys('
-GOOGLE_PLACES_API_KEY = os.environ.get('GOOGLE_PLACES_API_KEY', '')
-STRIPE_API_KEY = os.environ.get('STRIPE_API_KEY', '')
+
+GOOGLE_PLACES_API_KEY = env('GOOGLE_PLACES_API_KEY')
+STRIPE_API_KEY = env('STRIPE_API_KEY')
+
+EMAIL_BACKEND = "sgbackend.SendGridBackend"
+SENDGRID_USER = env('SG_USER')
+SENDGRID_PASSWORD = env('SG_PASSWORD')
+
+TWILIO_SID = env('TWILIO_ACCOUNT_SID')
+TWILIO_TOKEN = env('TWILIO_AUTH_TOKEN')
+TWILIO_DEFAULT_SENDER = "+34928100162"
+
+MR_WOLF_DEST_NO = "+34654715245"
+MR_WOLF_EMAIL = "mrwolf@jonnyibiza.com"
 
 DEBUG = True
 

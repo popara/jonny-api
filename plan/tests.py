@@ -1,3 +1,12 @@
-from django.test import TestCase
+import pytest
+from fixures import *
 
-# Create your tests here.
+
+
+
+@pytest.mark.django_db
+def test_charge_get(api, ok):
+    r = api.get('/api/charge')
+
+    assert r.status_code == ok
+    assert r.data == ":)"
