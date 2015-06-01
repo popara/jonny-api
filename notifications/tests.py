@@ -61,7 +61,7 @@ def test_user_charged(api, ok):
     assert m3.to == [EXPERT_EMAIL]
 
     assert r.status_code == ok
-    assert r.data == EXPERT_PHONE_NO
+    assert r.data == 'queued'
 
 
 def test_plan_ready(api, ok):
