@@ -157,7 +157,7 @@ class NotifyWolfView(APIView):
         user_id = request.data["user_id"]
         snipp = request.data["snipp"]
 
-        link = "https://mrwolf.divshot.io/chat/%s" % user_id
+        link = "https://mrwolf.divshot.io/chat/user/%s" % user_id
         text = "Mr. Wolf, you have a new chat from %s, Click here to reply: %s" \
             % (user_name, link)
 
