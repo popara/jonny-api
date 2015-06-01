@@ -23,10 +23,11 @@ class NotifyOnRegistration(APIView):
         client_email = request.data["client_email"]
 
         # To Traveler
-        link = "https://www.jonnyibiza.com/"
+        link = "https://www.jonnyibiza.com/login"
         subject = "Welcome to Jonny Ibiza"
-        body = "Hi %s - You have successfully registered with jonnyibiza.com.  Your login is: [login].  Cheers from Ibiza! - Jonny Ibiza" \
-            % (client_first_name)
+        body = "Hi %s \n\n You have successfully registered with jonnyibiza.com. \n\n"\
+            "Your login is: %s \n\n Cheers from Ibiza! \n\n Jonny Ibiza" \
+            % (client_first_name, link)
         e_from = "Mr. Wolf <mrwolf@jonnyibiza.com>"
 
         send_mail(subject, body, e_from, [client_email])
@@ -63,9 +64,12 @@ class NotifyOnUserPurchase(APIView):
         chat_link_agent = "https://www.jonnyibiza.com/chat/agent"
 
         subject = "We think you rock!"
-        body = "Hi %s \n\n Thanks for ordering your Plan from Jonny Ibiza!" \
-            "%s will get to work on it right away.  (S)He will have it to you no later than tomorrow @ %s."\
-            "In the meantime, you can feel free to chat with %s if you want to provide him/her any additional information about you or your trip. %s  \n\n Cheers from Ibiza! \n\n Jonny Ibiza" \
+        body = "Hi %s \n\n Thanks for ordering your Plan from Jonny Ibiza! \n\n" \
+            "%s will get to work on it right away. \n\n"\
+            "(S)He will have it to you no later than tomorrow @ %s. \n\n "\
+            "In the meantime, you can feel free to chat with %s " \
+            "if you want to provide him/her any additional information about you or your trip. \n\n %s \n\n" \
+            "Cheers from Ibiza! \n\n Jonny Ibiza" \
             % (client_first_name, expert_name, time, expert_name, chat_link_agent)
         e_from = "Mr. Wolf <mrwolf@jonnyibiza.com>"
 
@@ -117,7 +121,12 @@ class NotifyPlanIsReady(APIView):
         chat_link_agent = "https://www.jonnyibiza.com/chat/agent"
         chat_link_us = "https://www.jonnyibiza.com/chat/us"
         subject = "Your Plan is ready!"
-        body = "Hi %s, \n\n %s has completed your custom travel plan for Ibiza!  \n\n Just click here to see it. %s  \n\n You can chat with %s by clicking here. \n\n %s  \n\n Or you can chat directly with us at Jonny Ibiza by clicking here. \n\n %s \n\n We're sure you'll have an amazing trip.  \n\n Let us know if we can help in any way. \n\n Cheers from Ibiza! - \n Jonny Ibiza" \
+        body = "Hi %s, \n\n %s has completed your custom travel plan for Ibiza!  \n\n "\
+            "Just click here to see it. %s  \n\n"\
+            "You can chat with %s by clicking here. \n\n %s  \n\n "\
+            "Or you can chat directly with us at Jonny Ibiza by clicking here. \n\n %s \n\n"\
+            "We're sure you'll have an amazing trip.  \n\n"\
+            "Let us know if we can help in any way. \n\n Cheers from Ibiza! - \n\n Jonny Ibiza" \
             % (client_name, expert_name, link, expert_name, chat_link_agent, chat_link_us)
         e_from = "Mr. Wolf <mrwolf@jonnyibiza.com>"
 
