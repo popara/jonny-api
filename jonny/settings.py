@@ -74,7 +74,7 @@ CORS_ORIGIN_WHITELIST = (
     'localhost:3000',
     '127.0.0.1:3000',
     'jonnyibiza.com',
-    'www.jonnyibiza.com',
+    'https://www.jonnyibiza.com',
     '127.0.0.1:8000',
     'development.jonnyinc.divshot.io',
     'staging.jonnyinc.divshot.io',
@@ -85,6 +85,7 @@ CORS_ORIGIN_WHITELIST = (
     'staging.jonny-experts.divshot.io',
     'jonny-experts.divshot.io',
 )
+
 CORS_URL_REGEX = r'^/api/.*$'
 CORS_REPLACE_HTTPS_REFERER = True
 CORS_ALLOW_HEADERS = (
