@@ -74,6 +74,8 @@ CORS_ORIGIN_WHITELIST = (
     'localhost:3000',
     '127.0.0.1:3000',
     'jonnyibiza.com',
+    'experts.jonnyibiza.com',
+    'mrwolf.jonnyibiza.com',
     '127.0.0.1:8000',
     'development.jonnyinc.divshot.io',
     'staging.jonnyinc.divshot.io',
