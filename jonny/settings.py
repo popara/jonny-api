@@ -67,27 +67,25 @@ REST_FRAMEWORK = {
 
 
 
-# CORS_ORIGIN_WHITELIST = (
-#     'herokuapp.com',
-#     'localhost:8000',
-#     'localhost:3333',
-#     'localhost:3000',
-#     '127.0.0.1:3000',
-#     'jonnyibiza.com',
-#     'www.jonnyibiza.com',
-#     'https://www.jonnyibiza.com',
-#     '127.0.0.1:8000',
-#     'development.jonnyinc.divshot.io',
-#     'staging.jonnyinc.divshot.io',
-#     'jonnyinc.divshot.io',
-#     'burning-torch-1428.firebaseapp.com',
-#     'jonnyibiza.firebaseapp.com',
-#     'development.jonny-experts.divshot.io',
-#     'staging.jonny-experts.divshot.io',
-#     'jonny-experts.divshot.io',
-# )
+CORS_ORIGIN_WHITELIST = (
+    'herokuapp.com',
+    'localhost:8000',
+    'localhost:3333',
+    'localhost:3000',
+    '127.0.0.1:3000',
+    'jonnyibiza.com',
+    '127.0.0.1:8000',
+    'development.jonnyinc.divshot.io',
+    'staging.jonnyinc.divshot.io',
+    'jonnyinc.divshot.io',
+    'burning-torch-1428.firebaseapp.com',
+    'jonnyibiza.firebaseapp.com',
+    'development.jonny-experts.divshot.io',
+    'staging.jonny-experts.divshot.io',
+    'jonny-experts.divshot.io',
+)
 
-CORS_ORIGIN_ALLOW_ALL = True
+CORS_ORIGIN_ALLOW_ALL = False
 CORS_URL_REGEX = r'^/api/.*$'
 CORS_REPLACE_HTTPS_REFERER = True
 CORS_ALLOW_HEADERS = (
