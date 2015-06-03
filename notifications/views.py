@@ -84,7 +84,7 @@ class NotifyOnUserPurchase(APIView):
 
 
         # To Selected Jonny
-        link = "https://experts.jonnyibiza.com/user/%s" % client_id
+        link = "https://experts.jonnyibiza.com/client/%s" % client_id
         chat_link_us = "https://experts.jonnyibiza.com/chat/us"
 
         subject = "You are matched with a Traveler!"
