@@ -210,7 +210,7 @@ class NotifyOnClientChat(APIView):
 
         # To Expert
 
-        link = "https://experts.jonnyibiza.com/user/%s" % client_id
+        link = "https://experts.jonnyibiza.com/chat/user/%s" % client_id
         body = "%s, you have a new chat from %s.  Click here to reply: %s" \
             % (expert_name, client_name, link)
 
