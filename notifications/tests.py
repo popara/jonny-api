@@ -6,7 +6,7 @@ CLIENT_NAME = "Joe"
 CLIENT_EMAIL = "joe@doe.com"
 EXPERT_NAME = "Miguel"
 EXPERT_EMAIL = "miguel@hoe.com"
-MR_WOLF_EMAIL = "mrwolf@jonnyibiza.com"
+MR_WOLF_EMAIL = "drew@jonnyibiza.com"
 EXPERT_PHONE_NO = "+15005550012"
 CLIENT_ID = "simleid:1"
 
