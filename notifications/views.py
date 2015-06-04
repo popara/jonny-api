@@ -23,7 +23,7 @@ class NotifyOnRegistration(APIView):
         client_email = request.data["client_email"]
 
         # To Traveler
-        link = "https://www.jonnyibiza.com/login"
+        link = client_email
         subject = "Welcome to Jonny Ibiza"
         body = "Hi %s \n\n You have successfully registered with jonnyibiza.com. \n\n"\
             "Your login is: %s \n\n Cheers from Ibiza! \n\n Jonny Ibiza" \
@@ -71,7 +71,7 @@ class NotifyOnUserPurchase(APIView):
             "if you want to provide him/her any additional information about you or your trip. \n\n %s \n\n" \
             "Cheers from Ibiza! \n\n Jonny Ibiza" \
             % (client_first_name, expert_name, time, expert_name, chat_link_agent)
-        e_from = "Mr. Wolf <mrwolf@jonnyibiza.com>"
+        e_from = "Mr. Wolf <%s>" % mrwolf_email()
 
         send_mail(subject, body, e_from, [client_email])
 
@@ -128,7 +128,7 @@ class NotifyPlanIsReady(APIView):
             "We're sure you'll have an amazing trip.  \n\n"\
             "Let us know if we can help in any way. \n\n Cheers from Ibiza! - \n\n Jonny Ibiza" \
             % (client_name, expert_name, link, expert_name, chat_link_agent, chat_link_us)
-        e_from = "Mr. Wolf <mrwolf@jonnyibiza.com>"
+        e_from = "Mr. Wolf <%s>" % mrwolf_email()
 
         send_mail(subject, body, e_from, [client_email])
 
@@ -179,7 +179,7 @@ class NotifyOnExpertChat(APIView):
         subject = "Jonny Sent a Message"
         body = "Mr. Wolf \n\n %s has just sent a message to %s.  This is the message: %s.  Click here to see message thread. %s" \
             % (expert_name, client_name, snipp, link)
-        e_from = "Mr. Wolf <mrwolf@jonnyibiza.com>"
+        e_from = "Mr. Wolf <%s>" % mrwolf_email()
         send_mail(subject, body, e_from, [mrwolf_email()])
 
         return Response("ok")
@@ -204,7 +204,7 @@ class NotifyOnClientChat(APIView):
         subject = "Chat activity: %s" % client_name
         body = "Mr. Wolf, \n\n %s, has just sent a message to %s.  This is the message: %s.  Click here to see message thread. %s" \
             % (client_name, expert_name, snipp, link)
-        e_from = "Mr. Wolf <mrwolf@jonnyibiza.com>"
+        e_from = "Mr. Wolf <%s>" % mrwolf_email()
 
         send_mail(subject, body, e_from, [mrwolf_email()])
 
