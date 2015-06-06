@@ -16,6 +16,9 @@ def get_mrwolf_no():
 def mrwolf_email():
     return settings.MR_WOLF_EMAIL
 
+def fe(cat, link):
+    return "https://www.jonnyibiza.com/%s/%s" % (cat, link)
+
 class NotifyOnRegistration(APIView):
     def post(self, request):
         client_first_name = request.data["client_first_name"]
@@ -61,7 +64,7 @@ class NotifyOnUserPurchase(APIView):
 
         # To Traveler
 
-        chat_link_agent = "https://www.jonnyibiza.com/chat/agent"
+        chat_link_agent = fe("app", "chat/agent")
 
         subject = "We think you rock!"
         body = "Hi %s \n\n Thanks for ordering your Plan from Jonny Ibiza! \n\n" \
@@ -84,8 +87,8 @@ class NotifyOnUserPurchase(APIView):
 
 
         # To Selected Jonny
-        link = "https://experts.jonnyibiza.com/client/%s" % client_id
-        chat_link_us = "https://experts.jonnyibiza.com/chat/us"
+        link = fe("expert", "client/%s" % client_id)
+        chat_link_us = fe("expert", "chat/us")
 
         subject = "You are matched with a Traveler!"
         body = "Hi %s - Congrats! \n\n "\
@@ -117,9 +120,9 @@ class NotifyPlanIsReady(APIView):
 
         # To Traveler
 
-        link = "https://www.jonnyibiza.com/plan"
-        chat_link_agent = "https://www.jonnyibiza.com/chat/agent"
-        chat_link_us = "https://www.jonnyibiza.com/chat/us"
+        link = fe("app", "plan")
+        chat_link_agent = fe("app", "chat/agent")
+        chat_link_us = fe("app", "chat/us")
         subject = "Your Plan is ready!"
         body = "Hi %s, \n\n %s has completed your custom travel plan for Ibiza!  \n\n "\
             "Just click here to see it. %s  \n\n"\
@@ -134,7 +137,8 @@ class NotifyPlanIsReady(APIView):
 
 
         # To Expert
-        chat_link_us = "https://experts.jonnyibiza.com/chat/us"
+        chat_link_us = fe("expert", "chat/us")
+
         subject = "Mission Complete!"
         body = "Hi %s \n\n Congrats!  You've submitted a custom travel plan for %s. \n\n"\
             "Please remember to Click here if you have any problems or need any help from us. %s \n\n"\
@@ -157,7 +161,7 @@ class NotifyWolfView(APIView):
         user_id = request.data["user_id"]
         snipp = request.data["snipp"]
 
-        link = "https://mrwolf.divshot.io/chat/user/%s" % user_id
+        link = fe("wolf", "/chat/user/%s" % user_id)
         text = "Mr. Wolf, you have a new chat from %s, Click here to reply: %s" \
             % (user_name, link)
 
@@ -175,7 +179,7 @@ class NotifyOnExpertChat(APIView):
         snipp = request.data["snipp"]
 
         # To Mr. Wolf
-        link = "https://mrwolf.divshot.io/chat/%s" % client_id
+        link = fe("wolf", "chat/%s" % client_id)
         subject = "Jonny Sent a Message"
         body = "Mr. Wolf \n\n %s has just sent a message to %s.  This is the message: %s.  Click here to see message thread. %s" \
             % (expert_name, client_name, snipp, link)
@@ -199,7 +203,7 @@ class NotifyOnClientChat(APIView):
 
         # To Mr. Wolf
 
-        link = "https://mrwolf.divshot.io/chat/%s" % client_id
+        link = fe("wolf", "chat/%s" % client_id)
 
         subject = "Chat activity: %s" % client_name
         body = "Mr. Wolf, \n\n %s, has just sent a message to %s.  This is the message: %s.  Click here to see message thread. %s" \
@@ -210,7 +214,7 @@ class NotifyOnClientChat(APIView):
 
         # To Expert
 
-        link = "https://experts.jonnyibiza.com/chat/user/%s" % client_id
+        link = fe("expert", "chat/user/%s" % client_id)
         body = "%s, you have a new chat from %s.  Click here to reply: %s" \
             % (expert_name, client_name, link)
 
