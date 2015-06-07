@@ -176,7 +176,23 @@ class NotifyOnExpertChat(APIView):
         expert_name  = request.data["expert_name"]
         client_id  = request.data["client_id"]
         client_name  = request.data["client_name"]
+        client_email  = request.data["client_email"]
         snipp = request.data["snipp"]
+
+
+        # To Traveler
+
+        link = fe("app", "plan")
+        chat_link_agent = fe("app", "chat/agent")
+        chat_link_us = fe("app", "chat/us")
+        subject = "You have a new chat message!"
+        body = "You have a new chat message from your Jonny, %s!  \n\n "\
+            "Just click here to see it. \n\n %s  \n\n"\
+            % (expert_name, chat_link_agent)
+        e_from = "Mr. Wolf <%s>" % mrwolf_email()
+
+        send_mail(subject, body, e_from, [client_email])
+
 
         # To Mr. Wolf
         link = fe("wolf", "chat/%s" % client_id)
@@ -185,6 +201,7 @@ class NotifyOnExpertChat(APIView):
             % (expert_name, client_name, snipp, link)
         e_from = "Mr. Wolf <%s>" % mrwolf_email()
         send_mail(subject, body, e_from, [mrwolf_email()])
+
 
         return Response("ok")
 

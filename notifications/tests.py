@@ -6,7 +6,7 @@ CLIENT_NAME = "Joe"
 CLIENT_EMAIL = "joe@doe.com"
 EXPERT_NAME = "Miguel"
 EXPERT_EMAIL = "miguel@hoe.com"
-MR_WOLF_EMAIL = "drew@jonnyibiza.com"
+MR_WOLF_EMAIL = "mrwolf@jonnyibiza.com"
 EXPERT_PHONE_NO = "+15005550012"
 CLIENT_ID = "simleid:1"
 
@@ -113,14 +113,16 @@ def test_jonny_chat(api, ok):
     SNIPP = "Jonny I miss you"
     r = api.post("/api/notifications/jonny_chat", {
         "client_name": CLIENT_NAME,
+        "client_email": CLIENT_EMAIL,
         "client_id": CLIENT_ID,
         "expert_name": EXPERT_NAME,
         "snipp": SNIPP,
     })
 
-    m1 = mail.outbox[0]
+    m1, m2 = mail.outbox
 
-    assert m1.to == [MR_WOLF_EMAIL]
+    assert m1.to == [CLIENT_EMAIL]
+    assert m2.to == [MR_WOLF_EMAIL]
     assert r.status_code == ok
 
 
