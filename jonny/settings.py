@@ -24,6 +24,7 @@ TWILIO_DEFAULT_SENDER = "+34931071527"
 
 MR_WOLF_DEST_NO = "+34654715245"
 MR_WOLF_EMAIL = "mrwolf@jonnyibiza.com"
+MR_WOLF_EMAIL_DEST = "support@jonnyibiza.com"
 
 DEBUG = True
 

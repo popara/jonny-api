@@ -16,6 +16,9 @@ def get_mrwolf_no():
 def mrwolf_email():
     return settings.MR_WOLF_EMAIL
 
+def mrwolf_email_dest():
+    return settings.MR_WOLF_EMAIL_DEST
+
 def fe(cat, link):
     return "https://www.jonnyibiza.com/%s/%s" % (cat, link)
 
@@ -26,6 +29,8 @@ def sms_to(number, text):
 
     message = client.messages.create(body=text, to=number, from_=from_no)
 
+
+e_from = "Mr. Wolf <%s>" % mrwolf_email()
 
 class NotifyOnRegistration(APIView):
     def post(self, request):
@@ -39,7 +44,6 @@ class NotifyOnRegistration(APIView):
         body = "Hi %s \n\n You have successfully registered with jonnyibiza.com. \n\n"\
             "Your login is: %s \n\n Cheers from Ibiza! \n\n Jonny Ibiza" \
             % (client_first_name, link)
-        e_from = "Mr. Wolf <mrwolf@jonnyibiza.com>"
 
         send_mail(subject, body, e_from, [client_email])
 
@@ -49,7 +53,7 @@ class NotifyOnRegistration(APIView):
         body = "Mr. Wolf - %s has just registered on jonnyibiza.com.  Click here to see the Traveler's details.  - The Jonny Ibiza Robot" \
             % (client_name)
 
-        send_mail(subject, body, e_from, [mrwolf_email()])
+        send_mail(subject, body, e_from, [mrwolf_email_dest()])
 
         return Response("ok")
 
@@ -91,7 +95,7 @@ class NotifyOnUserPurchase(APIView):
         body = "Mr. Wolf - FYI, %s has just paid(!) for a plan on jonnyibiza.com. The Jonny Ibiza Robot" \
             % (client_name)
 
-        send_mail(subject, body, e_from, [mrwolf_email()])
+        send_mail(subject, body, e_from, [mrwolf_email_dest()])
 
         link = fe("wolf", "user/%s" % client_id)
         text = "%s have bought a Plan! Link to his case: %s" % (client_name, link)
@@ -181,6 +185,9 @@ class NotifyWolfView(APIView):
 
         message = client.messages.create(body=text, to=number, from_=from_no)
 
+        subject = "Mr Wolf, new chat message"
+        send_mail(subject, text, e_from, [mrwolf_email_dest()])
+
         return Response(message.status)
 
 
@@ -213,7 +220,7 @@ class NotifyOnExpertChat(APIView):
         body = "Mr. Wolf \n\n %s has just sent a message to %s.  This is the message: %s.  Click here to see message thread. %s" \
             % (expert_name, client_name, snipp, link)
         e_from = "Mr. Wolf <%s>" % mrwolf_email()
-        send_mail(subject, body, e_from, [mrwolf_email()])
+        send_mail(subject, body, e_from, [mrwolf_email_dest()])
 
 
         return Response("ok")
@@ -240,7 +247,7 @@ class NotifyOnClientChat(APIView):
             % (client_name, expert_name, snipp, link)
         e_from = "Mr. Wolf <%s>" % mrwolf_email()
 
-        send_mail(subject, body, e_from, [mrwolf_email()])
+        send_mail(subject, body, e_from, [mrwolf_email_dest()])
 
         # To Expert
 

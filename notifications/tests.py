@@ -7,6 +7,7 @@ CLIENT_EMAIL = "joe@doe.com"
 EXPERT_NAME = "Miguel"
 EXPERT_EMAIL = "miguel@hoe.com"
 MR_WOLF_EMAIL = "mrwolf@jonnyibiza.com"
+MR_WOLF_EMAIL_DEST = "support@jonnyibiza.com"
 EXPERT_PHONE_NO = "+15005550012"
 CLIENT_ID = "simleid:1"
 
@@ -28,7 +29,7 @@ def test_user_registered(api, ok):
     m1, m2  = mail.outbox
 
     assert m1.to == [CLIENT_EMAIL]
-    assert m2.to == [MR_WOLF_EMAIL]
+    assert m2.to == [MR_WOLF_EMAIL_DEST]
 
 
 def test_user_charged(api, ok):
@@ -57,7 +58,7 @@ def test_user_charged(api, ok):
     m1, m2, m3 = mail.outbox
 
     assert m1.to == [CLIENT_EMAIL]
-    assert m2.to == [MR_WOLF_EMAIL]
+    assert m2.to == [MR_WOLF_EMAIL_DEST]
     assert m3.to == [EXPERT_EMAIL]
 
     assert r.status_code == ok
@@ -102,7 +103,8 @@ def test_wolf_contacted(api, ok):
         "snipp": SNIPP,
     })
 
-
+    m1 = mail.outbox[0]
+    assert m1.to == [MR_WOLF_EMAIL_DEST]
     assert r.status_code == ok
     assert r.data != "failed"
 
@@ -122,7 +124,7 @@ def test_jonny_chat(api, ok):
     m1, m2 = mail.outbox
 
     assert m1.to == [CLIENT_EMAIL]
-    assert m2.to == [MR_WOLF_EMAIL]
+    assert m2.to == [MR_WOLF_EMAIL_DEST]
     assert r.status_code == ok
 
 
@@ -144,7 +146,7 @@ def test_user_chat(api, ok):
 
     m1 = mail.outbox[0]
 
-    assert m1.to == [MR_WOLF_EMAIL]
+    assert m1.to == [MR_WOLF_EMAIL_DEST]
     assert r.status_code == ok
 
     assert r.data == EXPERT_PHONE_NO
