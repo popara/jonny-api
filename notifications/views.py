@@ -99,7 +99,7 @@ class NotifyOnUserPurchase(APIView):
 
         link = fe("wolf", "user/%s" % client_id)
         text = "%s have bought a Plan! Link to his case: %s" % (client_name, link)
-        sms_to(get_mrwolf_no(), link)
+        sms_to(get_mrwolf_no(), text)
 
         # To Selected Jonny
         link = fe("expert", "client/%s" % client_id)
