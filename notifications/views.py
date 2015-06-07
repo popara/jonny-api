@@ -19,6 +19,14 @@ def mrwolf_email():
 def fe(cat, link):
     return "https://www.jonnyibiza.com/%s/%s" % (cat, link)
 
+def sms_to(number, text):
+    client = get_twilio_client()
+    number = get_mrwolf_no()
+    from_no = sender()
+
+    message = client.messages.create(body=text, to=number, from_=from_no)
+
+
 class NotifyOnRegistration(APIView):
     def post(self, request):
         client_first_name = request.data["client_first_name"]
@@ -85,6 +93,9 @@ class NotifyOnUserPurchase(APIView):
 
         send_mail(subject, body, e_from, [mrwolf_email()])
 
+        link = fe("wolf", "user/%s" % client_id)
+        text = "%s have bought a Plan! Link to his case: %s" % (client_name, link)
+        sms_to(get_mrwolf_no(), link)
 
         # To Selected Jonny
         link = fe("expert", "client/%s" % client_id)
@@ -136,6 +147,7 @@ class NotifyPlanIsReady(APIView):
         send_mail(subject, body, e_from, [client_email])
 
 
+
         # To Expert
         chat_link_us = fe("expert", "chat/us")
 
@@ -146,6 +158,7 @@ class NotifyPlanIsReady(APIView):
             % (expert_name, client_name, chat_link_us)
 
         send_mail(subject, body, e_from, [expert_email])
+
 
 
         return Response("ok")
