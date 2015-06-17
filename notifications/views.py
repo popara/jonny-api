@@ -9,6 +9,12 @@ logger = logging.getLogger('notifications')
 def log(text):
     logger.info(text)
 
+def log_mail(email):
+    log("Mail sent to %s" % email)
+
+def log_sms(no):
+    log("SMS sent to [%s]" % no)
+
 def get_twilio_client():
     return TwilioRestClient(account=settings.TWILIO_SID, token=settings.TWILIO_TOKEN)
 
@@ -29,11 +35,8 @@ def fe(cat, link):
 
 def sms_to(number, text):
     client = get_twilio_client()
-    number = get_mrwolf_no()
     from_no = sender()
-
     return client.messages.create(body=text, to=number, from_=from_no)
-
 
 e_from = "Mr. Wolf <%s>" % mrwolf_email()
 
@@ -43,6 +46,7 @@ class NotifyOnRegistration(APIView):
         client_name = request.data["client_name"]
         client_email = request.data["client_email"]
 
+        log("New registered user")
         # To Traveler
         link = client_email
         subject = "Welcome to Jonny Ibiza"
@@ -51,7 +55,7 @@ class NotifyOnRegistration(APIView):
             % (client_first_name, link)
 
         send_mail(subject, body, e_from, [client_email])
-
+        log_mail(client_email)
 
         # To Mr. Wolf
         subject = "New traveler!"
@@ -59,6 +63,7 @@ class NotifyOnRegistration(APIView):
             % (client_name)
 
         send_mail(subject, body, e_from, [mrwolf_email_dest()])
+        log_mail(mrwolf_email_dest())
 
         return Response("ok")
 
@@ -92,7 +97,7 @@ class NotifyOnUserPurchase(APIView):
             % (client_first_name, expert_name, time, expert_name, chat_link_agent)
 
         send_mail(subject, body, e_from, [client_email])
-        log("Mail sent to %s" % client_email)
+        log_mail(client_email)
 
         # To Mr. Wolf
         subject = "We have a paying customer!"
@@ -100,12 +105,12 @@ class NotifyOnUserPurchase(APIView):
             % (client_name)
 
         send_mail(subject, body, e_from, [mrwolf_email_dest()])
-        log("Mail sent to %s" % mrwolf_email_dest())
+        log_mail(mrwolf_email_dest())
 
         link = fe("wolf", "user/%s" % client_id)
         text = "%s have bought a Plan! Link to his case: %s" % (client_name, link)
         sms_to(get_mrwolf_no(), text)
-        log("SMS sent to Mr Wolf [%s]" % get_mrwolf_no())
+        log_sms(get_mrwolf_no())
 
         # To Selected Jonny
         link = fe("expert", "client/%s" % client_id)
@@ -121,13 +126,15 @@ class NotifyOnUserPurchase(APIView):
             % (expert_name, client_name, client_first_name, client_first_name, link, chat_link_us)
 
         send_mail(subject, body, e_from, [expert_email])
-        log("Mail sent to %s" % expert_email)
+        log_mail(expert_email)
 
         text = "You have a new Jonny Ibiza plan request. \n\n Click here to prepare plan for %s. \n\n %s \n\n" \
             % (client_name, link)
 
         m = sms_to(phoneno, text)
-        log("SMS sent to Jonny [%s]" % phoneno)
+        log_sms(phoneno)
+
+        log("All notifications done")
 
         return Response(m.status)
 
@@ -140,6 +147,7 @@ class NotifyPlanIsReady(APIView):
         expert_name = request.data['expert_name']
         expert_email = request.data['expert_email']
 
+        log("A plain is ready")
         # To Traveler
 
         link = fe("app", "plan")
@@ -156,7 +164,7 @@ class NotifyPlanIsReady(APIView):
 
         send_mail(subject, body, e_from, [client_email])
 
-
+        log_mail(client_email)
 
         # To Expert
         chat_link_us = fe("expert", "chat/us")
@@ -168,6 +176,8 @@ class NotifyPlanIsReady(APIView):
             % (expert_name, client_name, chat_link_us)
 
         send_mail(subject, body, e_from, [expert_email])
+        log_mail(expert_email)
+        log("All done")
 
         return Response("ok")
 
@@ -182,15 +192,17 @@ class NotifyWolfView(APIView):
         user_id = request.data["user_id"]
         snipp = request.data["snipp"]
 
+        log("Notify Wolf")
+
         link = fe("wolf", "/chat/user/%s" % user_id)
         text = "Mr. Wolf, you have a new chat from %s, Click here to reply: %s" \
             % (user_name, link)
-
-
-        message = client.messages.create(body=text, to=number, from_=from_no)
+        message = sms_to(number, text)
+        log_sms(number)
 
         subject = "Mr Wolf, new chat message"
         send_mail(subject, text, e_from, [mrwolf_email_dest()])
+        log_mail(mrwolf_email_dest())
 
         return Response(message.status)
 
@@ -203,6 +215,7 @@ class NotifyOnExpertChat(APIView):
         client_email  = request.data["client_email"]
         snipp = request.data["snipp"]
 
+        log("Expert Chat")
 
         # To Traveler
 
@@ -216,7 +229,7 @@ class NotifyOnExpertChat(APIView):
         e_from = "Mr. Wolf <%s>" % mrwolf_email()
 
         send_mail(subject, body, e_from, [client_email])
-
+        log_mail(client_email)
 
         # To Mr. Wolf
         link = fe("wolf", "chat/%s" % client_id)
@@ -225,7 +238,9 @@ class NotifyOnExpertChat(APIView):
             % (expert_name, client_name, snipp, link)
         e_from = "Mr. Wolf <%s>" % mrwolf_email()
         send_mail(subject, body, e_from, [mrwolf_email_dest()])
+        log_mail(mrwolf_email_dest())
 
+        log("All done")
 
         return Response("ok")
 
@@ -241,25 +256,27 @@ class NotifyOnClientChat(APIView):
         expert_phone = request.data["expert_phone"]
         snipp = request.data["snipp"]
 
+        log("Client chat")
 
         # To Mr. Wolf
-
         link = fe("wolf", "chat/%s" % client_id)
-
         subject = "Chat activity: %s" % client_name
         body = "Mr. Wolf, \n\n %s, has just sent a message to %s.  This is the message: %s.  Click here to see message thread. %s" \
             % (client_name, expert_name, snipp, link)
         e_from = "Mr. Wolf <%s>" % mrwolf_email()
 
         send_mail(subject, body, e_from, [mrwolf_email_dest()])
+        log_mail(mrwolf_email_dest())
 
         # To Expert
-
         link = fe("expert", "chat/user/%s" % client_id)
         body = "%s, you have a new chat from %s.  Click here to reply: %s" \
             % (expert_name, client_name, link)
 
-        message = client.messages.create(body=body, to=expert_phone, from_=from_no)
+        message = sms_to(expert_phone, body)
+        log_sms(expert_phone)
+
+        log("All done")
 
         return Response(message.to)
 
