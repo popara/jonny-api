@@ -163,7 +163,7 @@ LOGGING = {
         }
     },
     'loggers': {
-        'testlogger': {
+        'notifications': {
             'handlers': ['console'],
             'level': 'INFO',
         }

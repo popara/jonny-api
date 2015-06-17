@@ -67,6 +67,7 @@ class NotifyOnRegistration(APIView):
 class NotifyOnUserPurchase(APIView):
     def post(self, request):
         logger.info('This is a simple log message')
+        
         client_first_name = request.data['client_first_name']
         client_name = request.data['client_name']
         client_email = request.data['client_email']
