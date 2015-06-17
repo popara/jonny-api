@@ -6,7 +6,8 @@ from twilio.rest import TwilioRestClient
 import logging
 logger = logging.getLogger('notifications')
 
-
+def log(text):
+    logger.info(text)
 
 def get_twilio_client():
     return TwilioRestClient(account=settings.TWILIO_SID, token=settings.TWILIO_TOKEN)
@@ -66,8 +67,8 @@ class NotifyOnRegistration(APIView):
 
 class NotifyOnUserPurchase(APIView):
     def post(self, request):
-        logger.info('This is a simple log message')
-        print logger
+        log('We have a customer')
+
         client_first_name = request.data['client_first_name']
         client_name = request.data['client_name']
         client_email = request.data['client_email']
@@ -91,6 +92,7 @@ class NotifyOnUserPurchase(APIView):
             % (client_first_name, expert_name, time, expert_name, chat_link_agent)
 
         send_mail(subject, body, e_from, [client_email])
+        log("Mail sent to %s" % client_email)
 
         # To Mr. Wolf
         subject = "We have a paying customer!"
@@ -98,10 +100,12 @@ class NotifyOnUserPurchase(APIView):
             % (client_name)
 
         send_mail(subject, body, e_from, [mrwolf_email_dest()])
+        log("Mail sent to %s" % mrwolf_email_dest())
 
         link = fe("wolf", "user/%s" % client_id)
         text = "%s have bought a Plan! Link to his case: %s" % (client_name, link)
         sms_to(get_mrwolf_no(), text)
+        log("SMS sent to Mr Wolf [%s]" % get_mrwolf_no())
 
         # To Selected Jonny
         link = fe("expert", "client/%s" % client_id)
@@ -117,12 +121,13 @@ class NotifyOnUserPurchase(APIView):
             % (expert_name, client_name, client_first_name, client_first_name, link, chat_link_us)
 
         send_mail(subject, body, e_from, [expert_email])
-
+        log("Mail sent to %s" % expert_email)
 
         text = "You have a new Jonny Ibiza plan request. \n\n Click here to prepare plan for %s. \n\n %s \n\n" \
             % (client_name, link)
 
         m = sms_to(phoneno, text)
+        log("SMS sent to Jonny [%s]" % phoneno)
 
         return Response(m.status)
 
