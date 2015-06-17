@@ -3,6 +3,10 @@ from rest_framework.response import Response
 from django.core.mail import send_mail
 from django.conf import settings
 from twilio.rest import TwilioRestClient
+import logging
+logger = logging.getLogger('notifications')
+
+
 
 def get_twilio_client():
     return TwilioRestClient(account=settings.TWILIO_SID, token=settings.TWILIO_TOKEN)
@@ -27,7 +31,7 @@ def sms_to(number, text):
     number = get_mrwolf_no()
     from_no = sender()
 
-    message = client.messages.create(body=text, to=number, from_=from_no)
+    return client.messages.create(body=text, to=number, from_=from_no)
 
 
 e_from = "Mr. Wolf <%s>" % mrwolf_email()
@@ -62,9 +66,7 @@ class NotifyOnRegistration(APIView):
 
 class NotifyOnUserPurchase(APIView):
     def post(self, request):
-        client = get_twilio_client()
-        from_no = sender()
-
+        logger.info('This is a simple log message')
         client_first_name = request.data['client_first_name']
         client_name = request.data['client_name']
         client_email = request.data['client_email']
@@ -91,7 +93,7 @@ class NotifyOnUserPurchase(APIView):
         send_mail(subject, body, e_from, [client_email])
 
         # To Mr. Wolf
-        subject = "We have a payed customer!"
+        subject = "We have a paying customer!"
         body = "Mr. Wolf - FYI, %s has just paid(!) for a plan on jonnyibiza.com. The Jonny Ibiza Robot" \
             % (client_name)
 
@@ -120,7 +122,7 @@ class NotifyOnUserPurchase(APIView):
         text = "You have a new Jonny Ibiza plan request. \n\n Click here to prepare plan for %s. \n\n %s \n\n" \
             % (client_name, link)
 
-        m = client.messages.create(body=text, to=phoneno, from_=from_no)
+        m = sms_to(phoneno, text)
 
         return Response(m.status)
 
