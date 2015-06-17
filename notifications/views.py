@@ -67,7 +67,7 @@ class NotifyOnRegistration(APIView):
 class NotifyOnUserPurchase(APIView):
     def post(self, request):
         logger.info('This is a simple log message')
-        
+        print logger
         client_first_name = request.data['client_first_name']
         client_name = request.data['client_name']
         client_email = request.data['client_email']
@@ -89,7 +89,6 @@ class NotifyOnUserPurchase(APIView):
             "if you want to provide him/her any additional information about you or your trip. \n\n %s \n\n" \
             "Cheers from Ibiza! \n\n Jonny Ibiza" \
             % (client_first_name, expert_name, time, expert_name, chat_link_agent)
-        e_from = "Mr. Wolf <%s>" % mrwolf_email()
 
         send_mail(subject, body, e_from, [client_email])
 
@@ -149,7 +148,6 @@ class NotifyPlanIsReady(APIView):
             "We're sure you'll have an amazing trip.  \n\n"\
             "Let us know if we can help in any way. \n\n Cheers from Ibiza! - \n\n Jonny Ibiza" \
             % (client_name, expert_name, link, expert_name, chat_link_agent, chat_link_us)
-        e_from = "Mr. Wolf <%s>" % mrwolf_email()
 
         send_mail(subject, body, e_from, [client_email])
 
@@ -165,8 +163,6 @@ class NotifyPlanIsReady(APIView):
             % (expert_name, client_name, chat_link_us)
 
         send_mail(subject, body, e_from, [expert_email])
-
-
 
         return Response("ok")
 
