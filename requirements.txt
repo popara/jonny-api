@@ -1,4 +1,8 @@
+amqp==1.4.6
+anyjson==0.3.3
+billiard==3.3.0.20
 boto==2.37.0
+celery==3.1.18
 dj-database-url==0.3.0
 dj-static==0.0.6
 Django==1.7.7
@@ -16,7 +20,9 @@ django-twilio==0.8.0
 djangorestframework==3.1.1
 gunicorn==19.3.0
 httplib2==0.9.1
+kombu==3.0.26
 Markdown==2.6.1
+mock==1.0.1
 phonenumbers==7.0.5
 PIL==1.1.7
 psycopg2==2.6

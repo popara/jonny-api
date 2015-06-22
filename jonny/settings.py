@@ -1,3 +1,5 @@
+from __future__ import absolute_import
+
 import os
 import dj_database_url
 
@@ -169,3 +171,12 @@ LOGGING = {
         }
     }
 }
+
+# Celery
+
+BROKER_URL = 'amqp://guest:guest@localhost//'
+
+
+CELERY_ACCEPT_CONTENT = ['json']
+CELERY_TASK_SERIALIZER = 'json'
+CELERY_RESULT_SERIALIZER = 'json'
