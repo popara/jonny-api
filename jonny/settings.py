@@ -174,7 +174,7 @@ LOGGING = {
 
 # Celery
 
-BROKER_URL = 'amqp://guest:guest@localhost//'
+BROKER_URL = env('REDISGREEN_URL')
 
 
 CELERY_ACCEPT_CONTENT = ['json']
