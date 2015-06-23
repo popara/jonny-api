@@ -1,0 +1,37 @@
+import pytest
+from firebase import firebase as f
+from django.conf import settings
+settings.FIREBASE = 'jonny-test'
+
+from firestone import fb_url, get_job as fjob, merge_ids, patch_job as pj
+
+
+@pytest.fixture
+def fire_app():
+    return f.FirebaseApplication(fb_url('jonny-test'))
+
+
+@pytest.fixture
+def available_experts(fire_app):
+    exp_ids = fire_app.get('/experts', None)
+    us = [fire_app.get('/users', k) for k in exp_ids.keys()]
+    us = merge_ids(exp_ids, us)
+    return filter(lambda u: u['available'], us)
+
+# {u'simplelogin:2': True, u'simplelogin:1': True}
+
+@pytest.fixture
+def get_job(fire_app):
+    return fjob
+
+
+@pytest.fixture
+def patch_job():
+    return pj
+
+@pytest.fixture
+def fresh_job(patch_job):
+    def fn(job_id):
+        patch_job(job_id, {'applicants': []})
+
+    return fn 

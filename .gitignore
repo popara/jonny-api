@@ -29,6 +29,8 @@ var/
 *.manifest
 *.spec
 
+.env
+
 # Installer logs
 pip-log.txt
 pip-delete-this-directory.txt
@@ -58,3 +60,4 @@ target/
 
 # Virtual Enviroment
 venv/
+.idea/

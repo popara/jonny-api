@@ -8,6 +8,7 @@ def env(key):
 
 BASE_DIR = os.path.dirname(os.path.dirname(__file__))
 
+
 JONNY_PLAN_PRICE_IN_CENTS = 5000
 JONNY_PLAN_CURRENCY = "eur"
 
@@ -19,7 +20,7 @@ STRIPE_API_KEY = env('STRIPE_API_KEY')
 EMAIL_BACKEND = "sgbackend.SendGridBackend"
 SENDGRID_USER = env('SG_USER')
 SENDGRID_PASSWORD = env('SG_PASSWORD')
-
+FIREBASE = env('FIREBASE')
 TWILIO_SID = env('TWILIO_ACCOUNT_SID')
 TWILIO_TOKEN = env('TWILIO_AUTH_TOKEN')
 TWILIO_DEFAULT_SENDER = "+34931071527"
@@ -28,9 +29,8 @@ MR_WOLF_DEST_NO = "+34654715245"
 MR_WOLF_EMAIL = "mrwolf@jonnyibiza.com"
 MR_WOLF_EMAIL_DEST = "support@jonnyibiza.com"
 
-DEBUG = True
-
-TEMPLATE_DEBUG = True
+DEBUG = env('jonny_zora_debug')
+TEMPLATE_DEBUG = DEBUG
 
 ALLOWED_HOSTS = ['*']
 
@@ -175,8 +175,14 @@ LOGGING = {
 # Celery
 
 BROKER_URL = env('REDISGREEN_URL')
-
+CELERY_RESULT_BACKEND = env('REDISGREEN_URL')
 
 CELERY_ACCEPT_CONTENT = ['json']
 CELERY_TASK_SERIALIZER = 'json'
 CELERY_RESULT_SERIALIZER = 'json'
+
+
+# Queuing Params
+HARD_LIMIT_PERIOD = 10 * 60 # 30 mins in seconds
+SOFT_LIMIT_PERIOD = 5 * 60 # 5 mins
+QUEUE_SIZE = 3

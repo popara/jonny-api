@@ -2,6 +2,7 @@ import pytest
 from rest_framework.test import APIClient
 from rest_framework import status
 from django.conf import settings
+from .firebase_fixutres import *
 
 @pytest.fixture
 def api():
@@ -13,4 +14,8 @@ def ok():
 
 @pytest.fixture
 def settings():
-    return settings 
+    return settings
+
+
+def checkEqual(L1, L2):
+    return len(L1) == len(L2) and sorted(L1) == sorted(L2)

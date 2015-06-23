@@ -1,63 +1,25 @@
-from django.shortcuts import render
-from django.views import generic 
-from django.utils.decorators import method_decorator
-from django.contrib.admin.views.decorators import staff_member_required
-from .forms import GPSearchForm
-from .models import enquire_google_places, ReCa, Activity, Accomodation, Beach
-from .serializers import ReCaSerializer, ActivitySerializer, AccomodationSerializer, BeachSerializer
-from rest_framework.generics import ListAPIView
+from rest_framework.views import APIView
+from rest_framework.response import Response
+from firestone.models import job_queue_position_words
+from . import tasks as t
+
+class StartJobView(APIView):
+    def post(self, request, job_id):
+        c = (t.get_experts.s()
+        | t.notify_experts.s(job_id)
+        | t.start_hard_limit.si(job_id))
+
+        c.delay()
+
+        return Response()
+
+class ApplyForJobView(APIView):
+    def post(self, request, job_id, user_id):
+        t.set_soft_limit.delay(job_id)
+
+        t.apply_for_job(user_id, job_id)
+        return Response(job_queue_position_words(job_id))
 
 
-class PreScrap(generic.View):
-  def get(self, request, *args):
-
-    return render(request, "matching/scrap.html", {
-      'search': GPSearchForm()
-      })
-
-  def post(self, request): 
-    f = GPSearchForm(request.POST)
-    context = {
-      'search' : f, 
-    }
-
-    if f.is_valid():
-      (new_venues, dcs) = enquire_google_places(**f.enquiry())
-      context.update({'result': new_venues, 'new_ammount': dcs.objects.count() })
-
-    return render(request, "matching/scrap.html", context)
-
-
-  @method_decorator(staff_member_required)
-  def dispatch(self, request, *args, **kwargs):
-      return super(PreScrap, self).dispatch(request, *args, **kwargs)
-
-
-class ReCaView(ListAPIView):
-  queryset = ReCa.objects.all()
-  serializer_class = ReCaSerializer
-
-
-class ActivityView(ListAPIView):
-  queryset = Activity.objects.all()
-  serializer_class = ActivitySerializer
-
-
-class AccommodationView(ListAPIView):
-  queryset = Accomodation.objects.all()
-  serializer_class = AccomodationSerializer
-
-
-class BeachView(ListAPIView):
-  queryset = Beach.objects.all()
-  serializer_class = BeachSerializer
-
-
-reca = ReCaView.as_view()
-activities = ActivityView.as_view()
-accommodations = AccommodationView.as_view()
-beaches = BeachView.as_view()
-
-prescrap = PreScrap.as_view()
-
-
+start_job = StartJobView.as_view()
+job_apply = ApplyForJobView.as_view()
