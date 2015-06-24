@@ -1,13 +1,12 @@
 import pytest
 from firebase import firebase as f
 from django.conf import settings
-settings.FIREBASE = 'jonny-test'
-
 from firestone import fb_url, get_job as fjob, merge_ids, patch_job as pj
 from firestone.models import apply_for_job
 
 @pytest.fixture
-def fire_app():
+def fire_app(test_firebase):
+    settings.FIREBASE = 'jonny-test'
     return f.FirebaseApplication(fb_url('jonny-test'))
 
 
@@ -38,3 +37,8 @@ def fresh_job(patch_job):
 @pytest.fixture
 def apply_for_job():
     return apply_for_job
+
+@pytest.fixture
+def test_firebase():
+    # settings.FIREBASE = 'jonny-test'
+    return settings.FIREBASE

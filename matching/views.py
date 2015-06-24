@@ -1,7 +1,8 @@
 from . import tasks as t
 from rest_framework.views import APIView
 from rest_framework.response import Response
-from firestone.models import job_queue_position_words, SOFT_LIMIT_PERIOD
+from firestone.models import job_queue_position, SOFT_LIMIT_PERIOD,\
+    has_space, get_job, position_word
 
 class StartJobView(APIView):
     def post(self, request, job_id):
@@ -15,14 +16,14 @@ class StartJobView(APIView):
 
 class ApplyForJobView(APIView):
     def post(self, request, job_id, user_id):
-        try:
-            t.apply_for_job(user_id, job_id)
-        except Exception as e:
-            return Response(e.__str__(), status=401)
+        job = get_job(job_id)
 
-        t.start_soft_limit.delay(job_id, SOFT_LIMIT_PERIOD())
-        return Response(job_queue_position_words(job_id))
-
+        if has_space(job):
+            job = t.apply_for_job(user_id, job, job_id)
+            t.start_soft_limit.delay(job_id, SOFT_LIMIT_PERIOD())
+            return Response(position_word(job_queue_position(job)))
+        else:
+            return Response("Full", status=500)
 
 start_job = StartJobView.as_view()
 job_apply = ApplyForJobView.as_view()

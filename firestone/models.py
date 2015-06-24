@@ -23,12 +23,17 @@ def finish_drafting(job_id):
     patch_job(job_id, {'status':'drafted'})
 
 
-def job_queue_position(job_id):
-    j = get_job(job_id)
-    return len(j[APPLICANTS_KEY])
+def job_queue_position(job):
+    if APPLICANTS_KEY in job:
+        return len(job[APPLICANTS_KEY])
+    else:
+        return 0
 
-def job_queue_position_words(job_id):
-    return position_word(job_queue_position(job_id))
+def job_queue_position_words(pos):
+    if pos <= QUEUE_SIZE():
+        return position_word(pos)
+    else:
+        return "Full"
 
 def position_word(post):
     if post == 1:
@@ -51,6 +56,7 @@ def apply_for_job(job_id, user_id):
 def has_space(job):
     return (APPLICANTS_KEY not in job) or \
         (APPLICANTS_KEY in job and len(job[APPLICANTS_KEY]) < QUEUE_SIZE())
+
 
 def HARD_LIMIT_PERIOD(): return settings.HARD_LIMIT_PERIOD
 def SOFT_LIMIT_PERIOD(): return settings.SOFT_LIMIT_PERIOD

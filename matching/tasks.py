@@ -32,10 +32,12 @@ def start_hard_limit(job_id):
 @shared_task
 def hard_limit(job_id):
     job = get_job(job_id)
+
     if APPLICANTS_KEY not in job or len(job[APPLICANTS_KEY]) == 0:
         backs = get_backup_experts()
         aps = map(lambda a: job_application(a['id']), backs)
         patch_job(job_id, {APPLICANTS_KEY: aps})
+        finish_drafting(job_id)
         return final_emails(job_id)
 
 
@@ -45,15 +47,15 @@ def get_user_by_id(user_id):
 
 
 @shared_task
-def apply_for_job(user_id, job_id):
-    job = get_job(job_id)
-
+def apply_for_job(user_id, job, job_id):
     if has_space(job):
         afj(job_id, user_id)
 
         job = get_job(job_id)
         if len(job[APPLICANTS_KEY]) == QUEUE_SIZE():
             soft_limit(job_id)
+
+        return job
     else:
         raise Exception("No more space")
 
