@@ -4,7 +4,7 @@ from django.conf import settings
 settings.FIREBASE = 'jonny-test'
 
 from firestone import fb_url, get_job as fjob, merge_ids, patch_job as pj
-
+from firestone.models import apply_for_job
 
 @pytest.fixture
 def fire_app():
@@ -24,7 +24,6 @@ def available_experts(fire_app):
 def get_job(fire_app):
     return fjob
 
-
 @pytest.fixture
 def patch_job():
     return pj
@@ -32,6 +31,10 @@ def patch_job():
 @pytest.fixture
 def fresh_job(patch_job):
     def fn(job_id):
-        patch_job(job_id, {'applicants': []})
+        patch_job(job_id, {'applicants': [], 'status': 'drafting'})
 
-    return fn 
+    return fn
+
+@pytest.fixture
+def apply_for_job():
+    return apply_for_job

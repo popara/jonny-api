@@ -2,7 +2,9 @@ from fixures import *
 from . import tasks as T
 from freezegun import freeze_time
 from datetime import datetime
+from time import sleep
 from django.core import mail
+from django.conf import settings
 
 job_id = "job_id"
 
@@ -82,3 +84,38 @@ def test_hard_limit_with_applicants(get_job, patch_job):
 
     assert len(mail.outbox) == 0
     assert len(j['applicants']) == 1
+
+def test_soft_limit_expires(api, get_job, fresh_job, apply_for_job):
+    fresh_job(job_id)
+    A = 'applicants'
+    u1 = "simplelogin:1"
+    u2 = "simplelogin:2"
+
+    r = api.post('/api/job/apply/%s/%s' % (job_id, u1))
+    r2 = api.post('/api/job/apply/%s/%s' % (job_id, u2))
+
+    assert len(mail.outbox) == 0
+    j = get_job(job_id)
+    assert j["status"] == "drafting"
+    T.soft_limit(job_id)
+
+    assert len(mail.outbox) == 1
+    m1 = mail.outbox[0]
+
+    assert m1.to == ['zeljko@jonnyibiza.com']
+
+def job_apply(api, job_id, user_id):
+    return api.post('/api/job/apply/%s/%s' % (job_id, user_id))
+
+def test_queue_filled(api, ok, get_job, fresh_job, apply_for_job):
+    fresh_job(job_id)
+    settings.SOFT_LIMIT_PERIOD = 2
+
+    def u(id):
+        return "simplelogin:%s" % id
+
+    for applicant in range(0, settings.QUEUE_SIZE):
+        job_apply(api, job_id, u(applicant))
+
+    r = job_apply(api, job_id, u(settings.QUEUE_SIZE+1))
+    assert r.status_code != ok

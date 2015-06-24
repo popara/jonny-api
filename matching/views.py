@@ -1,7 +1,7 @@
+from . import tasks as t
 from rest_framework.views import APIView
 from rest_framework.response import Response
-from firestone.models import job_queue_position_words
-from . import tasks as t
+from firestone.models import job_queue_position_words, SOFT_LIMIT_PERIOD
 
 class StartJobView(APIView):
     def post(self, request, job_id):
@@ -11,13 +11,16 @@ class StartJobView(APIView):
 
         c.delay()
 
-        return Response()
+        return Response(job_id)
 
 class ApplyForJobView(APIView):
     def post(self, request, job_id, user_id):
-        t.set_soft_limit.delay(job_id)
+        try:
+            t.apply_for_job(user_id, job_id)
+        except Exception as e:
+            return Response(e.__str__(), status=401)
 
-        t.apply_for_job(user_id, job_id)
+        t.start_soft_limit.delay(job_id, SOFT_LIMIT_PERIOD())
         return Response(job_queue_position_words(job_id))
 
 
