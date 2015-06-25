@@ -1,0 +1,28 @@
+{% extends "matching/base.html" %}
+
+{% block main %}
+<h1>Hi {{ name }},</h1>
+
+{% if in_progress %}
+<p>
+    We have already registered your click.  You are {{ order }} to respond and we will notify you as soon as the client has made his selection.
+</p>
+{% endif %}
+
+{% if done_selected %}
+<p>
+  This client has selected you!  Click here to see his profile and get to work on his plan:
+  {{ link }}
+</p>
+{% endif %}
+
+{% if done_not_selected %}
+<p>
+  This client has selected a different local expert to work with.  Sorry this one didn't work out.  Good luck on the next one!
+</p>
+{% endif %}
+
+<h4>Cheers!</h4>
+<h4>Jonny Ibiza</h4>
+
+{% endblock %}

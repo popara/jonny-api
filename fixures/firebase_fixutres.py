@@ -1,4 +1,5 @@
 import pytest
+from funcy import merge
 from firebase import firebase as f
 from django.conf import settings
 from firestone import fb_url, get_job as fjob, merge_ids, patch_job as pj, put_job
@@ -47,5 +48,24 @@ def apply_for_job():
 
 @pytest.fixture
 def test_firebase():
-    # settings.FIREBASE = 'jonny-test'
-    return settings.FIREBASE
+    return 'jonny-test'
+
+@pytest.fixture
+def empty_job():
+    return {
+        "owner": "sample:1",
+        "status": "drafting"
+    }
+
+@pytest.fixture
+def applied_job(empty_job):
+    return merge(empty_job, {
+        "applicants": [{}, {}]
+    })
+
+@pytest.fixture
+def full_job(empty_job):
+    return merge(empty_job, {
+        "applicants": [{}, {}, {}],
+        "status": "drafted"
+    })

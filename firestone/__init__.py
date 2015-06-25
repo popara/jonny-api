@@ -37,6 +37,7 @@ def get_experts():
     logger.info(FireRoot.dsn)
     exp_ids = FireRoot.get('/experts', None)
     us = [get_user(k) for k in exp_ids.keys()]
+    print us
     return filter(lambda u: u['available'], us)
 
 

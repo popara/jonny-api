@@ -1,9 +1,6 @@
 from __future__ import absolute_import
 from celery import shared_task
 
-from django.conf import settings
-from django.core.mail import send_mail
-
 from firestone import get_experts as fb_get_experts, \
     FireRoot, get_job, get_backup_experts, patch_job, get_user, \
     APPLICANTS_KEY
@@ -12,22 +9,18 @@ from firestone.models import job_application, apply_for_job as afj, \
     finish_drafting, has_space, \
     HARD_LIMIT_PERIOD, SOFT_LIMIT_PERIOD, QUEUE_SIZE
 
-
-job_start_subject = "Jonny"
-
-e_from = "Mr. Wolf <%s>" % settings.MR_WOLF_EMAIL
+from .models import JobStatus, apply_for_job_url, fe_user_pick
+from .emails import job_start_expert, job_done_client
 
 
-def job_start_text(job_id):
-    return "Hey Jonny, react! %s" % job_id
-
-
-def dispatch_initial_email(job_id, expert):
-    return send_mail(job_start_subject, job_start_text(job_id), e_from, [expert['email']])
+def dispatch_initial_email(job_id, expert, details):
+    link = apply_for_job_url(job_id, expert['id'])
+    print link
+    return job_start_expert(expert, details, link)
 
 @shared_task
 def start_drafting(job_id):
-    return patch_job(job_id, {'status': 'drafting'})
+    return patch_job(job_id, {'status': JobStatus.drafting})
 
 
 @shared_task
@@ -78,14 +71,13 @@ def start_soft_limit(job_id, period):
 @shared_task
 def soft_limit(job_id):
     job = get_job(job_id)
-    print job
     user = get_user(job['owner'])
+    print job 
     status = job['status']
 
-    if status == 'drafting':
+    if status == JobStatus.drafting:
         finish_drafting(job_id)
-        r = send_mail("Soft User", "User is done", e_from, [user['email']])
-        return "Sent %s mail" % r
+        return "Sent %s mail" % job_done_client(user, fe_user_pick())
     else:
         return "Soft Limit already reached"
 
@@ -95,15 +87,12 @@ def get_experts():
 
 @shared_task
 def notify_experts(experts, job_id):
+    details = {}
     for expert in experts:
-        dispatch_initial_email(job_id, expert)
+        dispatch_initial_email(job_id, expert, details)
 
 @shared_task
 def final_emails(job_id):
     j = get_job(job_id)
     owner = get_user(j['owner'])
-    experts = map(lambda a: get_user(a['user_id']), j['applicants'])
-    send_mail("final user", "final body body", e_from, [owner['email']])
-
-    for e in experts:
-        send_mail("final user", "final body body", e_from, [e['email']])
+    job_done_client(owner, fe_user_pick())

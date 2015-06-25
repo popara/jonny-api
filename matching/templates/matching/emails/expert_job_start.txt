@@ -1,0 +1,11 @@
+{{name}},
+
+A new Jonny Ibiza client just requested a concierge matching your profile.
+
+If you'd like to accept this client, click this link to accept:
+{{ link }}
+
+Remember: If you accept this client, you should be available to call him/her immediately upon matching to determine his/her needs.  And you should be available to service the client during his/her travel dates.
+
+New client details below:
+{{ details }}    

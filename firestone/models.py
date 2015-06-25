@@ -45,6 +45,17 @@ def position_word(post):
     elif post == 4:
         return 'fourth'
 
+def order_word(post):
+    if post == 1:
+        return '1st'
+    elif post == 2:
+        return '2nd'
+    elif post == 3:
+        return '3rd'
+    elif post == 4:
+        return '4th'
+
+
 def apply_for_job(job_id, job, user_id):
     if APPLICANTS_KEY not in job:
         job[APPLICANTS_KEY] = []

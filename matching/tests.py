@@ -1,5 +1,6 @@
 from fixures import *
 from . import tasks as T
+from .models import JobStatus, job_status
 from freezegun import freeze_time
 from datetime import datetime
 from time import sleep
@@ -7,6 +8,8 @@ from django.core import mail
 from django.conf import settings
 
 job_id = "simplelogin:190"
+def data(r):
+    return r.content
 
 def test_job_start(api, ok, get_job, super_fresh_job):
     status = 'status'
@@ -29,7 +32,7 @@ def test_applying_for_job(api, ok, get_job, patch_job, fresh_job):
     r = api.post('/api/job/apply/%s/%s' % (job_id, user))
     sleep(2)
     assert r.status_code == ok
-    assert 'first' in r.data
+    assert 'first' in data(r)
 
     j = get_job(job_id)
 
@@ -46,9 +49,9 @@ def test_applying_for_job_nd(api, ok, get_job, patch_job, fresh_job):
     assert r.status_code == ok
     assert r2.status_code == ok
     assert r3.status_code == ok
-    assert 'first' in r.data
-    assert 'second' in r2.data
-    assert 'third' in r3.data
+    assert 'first' in data(r)
+    assert 'second' in data(r2)
+    assert 'third' in data(r3)
 
     j = get_job(job_id)
     assert len(j['applicants']) == 3
@@ -60,7 +63,7 @@ def test_already_applied(api, ok, get_job, patch_job, fresh_job):
     r = job_apply(api, job_id, user)
 
     assert r.status_code == ok
-    assert 'first' in r.data
+    assert 'first' in data(r)
 
     j = get_job(job_id)
     assert len(j['applicants']) == 1
@@ -68,7 +71,7 @@ def test_already_applied(api, ok, get_job, patch_job, fresh_job):
 
     r = job_apply(api, job_id, user)
     assert r.status_code == ok
-    assert 'already' in r.data
+    assert 'already' in data(r)
 
     j = get_job(job_id)
     assert len(j['applicants']) == 1
@@ -81,7 +84,7 @@ def test_getting_expert(available_experts):
 def test_sending_emails():
     e1 = "test@test.te"
     ex1 = {"name": "Joe", "email": e1, "id": "simplelogin:1"}
-    m = T.dispatch_initial_email(job_id, ex1)
+    m = T.dispatch_initial_email(job_id, ex1, {})
     m1 = mail.outbox[0]
 
     assert len(mail.outbox) == 1
@@ -99,7 +102,7 @@ def test_hard_limit_no_applicants(get_job, patch_job):
     #teardown
     patch_job(job_id, {'applicants': []})
 
-    assert len(mail.outbox) == 2
+    assert len(mail.outbox) == 1
     assert len(j['applicants']) == 1
 
 def test_hard_limit_with_applicants(get_job, patch_job):
@@ -149,4 +152,7 @@ def test_queue_filled(api, ok, get_job, fresh_job, apply_for_job):
 
     r = job_apply(api, job_id, u(settings.QUEUE_SIZE+1))
     assert r.status_code != ok
-    assert "Full" in r.data
+    assert "Full" in data(r)
+
+def test_job_state(empty_job, applied_job, full_job):
+    assert empty_job["status"] == JobStatus.drafting

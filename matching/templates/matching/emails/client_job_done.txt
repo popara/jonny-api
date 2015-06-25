@@ -1,0 +1,6 @@
+Hi {{ name }},
+
+We've found the best local expert for you!
+
+Click here to see his profile:
+{{ link }}
