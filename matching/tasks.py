@@ -32,7 +32,8 @@ def start_drafting(job_id):
 
 @shared_task
 def start_hard_limit(job_id):
-    return hard_limit.apply_async(args=[job_id], countdown=HARD_LIMIT_PERIOD())
+    hard_limit.apply_async(args=[job_id], countdown=HARD_LIMIT_PERIOD())
+    return "Hard Limit scheduled in %s" % HARD_LIMIT_PERIOD()
 
 @shared_task
 def hard_limit(job_id):

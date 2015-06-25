@@ -50,16 +50,34 @@ def test_applying_for_job_nd(api, ok, get_job, patch_job, fresh_job):
     assert 'first' in r.data
     assert 'second' in r2.data
     assert 'third' in r3.data
-    j = get_job(job_id)
 
+    j = get_job(job_id)
     assert len(j['applicants']) == 3
 
+def test_already_applied(api, ok, get_job, patch_job, fresh_job):
+    fresh_job(job_id)
+    user = "simplelogin:3"
 
-def xtest_getting_expert(available_experts):
+    r = job_apply(api, job_id, user)
+
+    assert r.status_code == ok
+    assert 'first' in r.data
+
+    j = get_job(job_id)
+    assert len(j['applicants']) == 1
+
+
+    r = job_apply(api, job_id, user)
+    assert r.status_code == ok
+    assert 'already' in r.data
+
+    j = get_job(job_id)
+    assert len(j['applicants']) == 1
+
+
+def test_getting_expert(available_experts):
     u = T.get_experts()
-    # assert checkEqual(available_experts, u)
-    assert len(u) == 1
-    assert u[0]['id'] == 'simplelogin:1'
+    assert len(u) > 1
 
 def test_sending_emails():
     e1 = "test@test.te"

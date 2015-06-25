@@ -47,11 +47,16 @@ def position_word(post):
 
 def apply_for_job(job_id, user_id):
     job = get_job(job_id)
+
     if APPLICANTS_KEY not in job:
         job[APPLICANTS_KEY] = []
 
-    appls = job[APPLICANTS_KEY] + [job_application(user_id)]
-    patch_job(job_id, {APPLICANTS_KEY: appls})
+    user_application = job_application(user_id)
+    if user_application not in job[APPLICANTS_KEY]:
+        appls = job[APPLICANTS_KEY] + []
+        patch_job(job_id, {APPLICANTS_KEY: appls})
+
+    return user_application
 
 def has_space(job):
     return (APPLICANTS_KEY not in job) or \
@@ -62,5 +67,7 @@ def job_drafting(job_id):
     return 'status' in job and (job['status'] is 'drafting' or job['status'] is 'drafted')
 
 def HARD_LIMIT_PERIOD(): return settings.HARD_LIMIT_PERIOD
+
 def SOFT_LIMIT_PERIOD(): return settings.SOFT_LIMIT_PERIOD
+
 def QUEUE_SIZE(): return settings.QUEUE_SIZE

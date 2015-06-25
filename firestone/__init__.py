@@ -42,6 +42,9 @@ def merge_id(key, val):
     val['id'] = key
     return (key, val)
 
+def has_applied(job, user_id):
+    return user_id in map(lambda a: a['user_id'], job[APPLICANTS_KEY])
+
 def merge_ids(ids, collection):
     return map(lambda i: i[1],
         walk(lambda x: merge_id(*x), zip(ids, collection))
