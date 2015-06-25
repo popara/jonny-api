@@ -55,8 +55,7 @@ def get_user_by_id(user_id):
 @shared_task
 def apply_for_job(user_id, job, job_id):
     if has_space(job):
-        afj(job_id, user_id)
-
+        apl = afj(job_id, job, user_id)
         job = get_job(job_id)
         if len(job[APPLICANTS_KEY]) == QUEUE_SIZE():
             soft_limit(job_id)
@@ -79,6 +78,7 @@ def start_soft_limit(job_id, period):
 @shared_task
 def soft_limit(job_id):
     job = get_job(job_id)
+    print job
     user = get_user(job['owner'])
     status = job['status']
 

@@ -20,13 +20,14 @@ class ApplyForJobView(APIView):
     def post(self, request, job_id, user_id):
         job = get_job(job_id)
 
-        if has_applied(job):
+        if has_applied(job, user_id):
             return Response("already")
 
         if has_space(job):
             job = t.apply_for_job(user_id, job, job_id)
             t.start_soft_limit.delay(job_id, SOFT_LIMIT_PERIOD())
             return Response(position_word(job_queue_position(job)))
+
         return Response("Full", status=500)
 
 start_job = StartJobView.as_view()

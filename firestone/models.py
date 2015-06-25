@@ -45,15 +45,13 @@ def position_word(post):
     elif post == 4:
         return 'fourth'
 
-def apply_for_job(job_id, user_id):
-    job = get_job(job_id)
-
+def apply_for_job(job_id, job, user_id):
     if APPLICANTS_KEY not in job:
         job[APPLICANTS_KEY] = []
 
     user_application = job_application(user_id)
     if user_application not in job[APPLICANTS_KEY]:
-        appls = job[APPLICANTS_KEY] + []
+        appls = job[APPLICANTS_KEY] + [user_application]
         patch_job(job_id, {APPLICANTS_KEY: appls})
 
     return user_application
@@ -65,6 +63,12 @@ def has_space(job):
 def job_drafting(job_id):
     job = get_job(job_id)
     return 'status' in job and (job['status'] is 'drafting' or job['status'] is 'drafted')
+
+
+def has_applied(job, user_id):
+    return (APPLICANTS_KEY in job) and \
+        (user_id in map(lambda a: a['user_id'], job[APPLICANTS_KEY]))
+
 
 def HARD_LIMIT_PERIOD(): return settings.HARD_LIMIT_PERIOD
 

@@ -6,10 +6,11 @@ from time import sleep
 from django.core import mail
 from django.conf import settings
 
-job_id = "job_id"
+job_id = "simplelogin:190"
 
-def test_job_start(api, ok, get_job):
+def test_job_start(api, ok, get_job, super_fresh_job):
     status = 'status'
+    super_fresh_job(job_id)
     job = get_job(job_id)
     assert status not in job
 
@@ -42,8 +43,6 @@ def test_applying_for_job_nd(api, ok, get_job, patch_job, fresh_job):
     r = api.post('/api/job/apply/%s/%s' % (job_id, user))
     r2 = api.post('/api/job/apply/%s/%s' % (job_id, user2))
     r3 = job_apply(api, job_id, user3)
-    sleep(4)
-
     assert r.status_code == ok
     assert r2.status_code == ok
     assert r3.status_code == ok

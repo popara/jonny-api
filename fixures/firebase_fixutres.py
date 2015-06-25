@@ -1,7 +1,7 @@
 import pytest
 from firebase import firebase as f
 from django.conf import settings
-from firestone import fb_url, get_job as fjob, merge_ids, patch_job as pj
+from firestone import fb_url, get_job as fjob, merge_ids, patch_job as pj, put_job
 from firestone.models import apply_for_job
 
 @pytest.fixture
@@ -31,6 +31,13 @@ def patch_job():
 def fresh_job(patch_job):
     def fn(job_id):
         patch_job(job_id, {'applicants': [], 'status': 'drafting'})
+
+    return fn
+
+@pytest.fixture
+def super_fresh_job(patch_job):
+    def fn(job_id):
+        put_job(job_id, {'owner': job_id})
 
     return fn
 
