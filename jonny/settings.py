@@ -168,6 +168,10 @@ LOGGING = {
         'notifications': {
             'handlers': ['console'],
             'level': 'INFO',
+        },
+        'workers': {
+            'handlers': ['console'],
+            'level': 'INFO',
         }
     }
 }

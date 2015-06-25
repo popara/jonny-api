@@ -12,6 +12,9 @@ from firestone.models import job_application, apply_for_job as afj, \
     finish_drafting, has_space, \
     HARD_LIMIT_PERIOD, SOFT_LIMIT_PERIOD, QUEUE_SIZE
 
+import logging
+logger = logging.getLogger('workers')
+
 job_start_subject = "Jonny"
 
 e_from = "Mr. Wolf <%s>" % settings.MR_WOLF_EMAIL
@@ -90,7 +93,6 @@ def soft_limit(job_id):
 @shared_task
 def get_experts():
     return fb_get_experts()
-
 
 @shared_task
 def notify_experts(experts, job_id):
