@@ -12,8 +12,6 @@ from firestone.models import job_application, apply_for_job as afj, \
     finish_drafting, has_space, \
     HARD_LIMIT_PERIOD, SOFT_LIMIT_PERIOD, QUEUE_SIZE
 
-import logging
-logger = logging.getLogger('workers')
 
 job_start_subject = "Jonny"
 

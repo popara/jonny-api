@@ -3,6 +3,9 @@ from django.conf import settings
 from funcy import mapcat, walk
 from time import time
 
+import logging
+logger = logging.getLogger('workers')
+
 APPLICANTS_KEY = 'applicants'
 
 def fb_url(base):
@@ -29,6 +32,7 @@ def get_backup_experts():
 
 
 def get_experts():
+    logger.info(FireRoot.dsn)
     exp_ids = FireRoot.get('/experts', None)
     us = [get_user(k) for k in exp_ids.keys()]
     return filter(lambda u: u['available'], us)
