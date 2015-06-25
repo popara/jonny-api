@@ -2,15 +2,16 @@ from . import tasks as t
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from firestone.models import job_queue_position, SOFT_LIMIT_PERIOD,\
-    has_space, get_job, position_word
+    has_space, get_job, position_word, job_drafting
 
 class StartJobView(APIView):
     def post(self, request, job_id):
-        c = (t.get_experts.s()
-        | t.notify_experts.s(job_id)
-        | t.start_hard_limit.si(job_id))
+        if not job_drafting(job_id):
+            c = (t.get_experts.s()
+            | t.notify_experts.s(job_id)
+            | t.start_hard_limit.si(job_id))
 
-        c.delay()
+            c.delay()
 
         return Response(job_id)
 

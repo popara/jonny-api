@@ -57,6 +57,9 @@ def has_space(job):
     return (APPLICANTS_KEY not in job) or \
         (APPLICANTS_KEY in job and len(job[APPLICANTS_KEY]) < QUEUE_SIZE())
 
+def job_drafting(job_id):
+    job = get_job(job_id)
+    return 'status' in job and (job['status'] is 'drafting' or job['status'] is 'drafted')
 
 def HARD_LIMIT_PERIOD(): return settings.HARD_LIMIT_PERIOD
 def SOFT_LIMIT_PERIOD(): return settings.SOFT_LIMIT_PERIOD

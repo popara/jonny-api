@@ -60,10 +60,6 @@ def apply_for_job(user_id, job, job_id):
         raise Exception("No more space")
 
 
-
-
-
-
 @shared_task
 def start_soft_limit(job_id, period):
     job = get_job(job_id)
