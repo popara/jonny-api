@@ -24,6 +24,10 @@ def job_start_text(job_id):
 def dispatch_initial_email(job_id, expert):
     return send_mail(job_start_subject, job_start_text(job_id), e_from, [expert['email']])
 
+@shared_task
+def start_drafting(job_id):
+    return patch_job(job_id, {'status': 'drafting'})
+
 
 @shared_task
 def start_hard_limit(job_id):

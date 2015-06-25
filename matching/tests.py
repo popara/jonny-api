@@ -8,11 +8,19 @@ from django.conf import settings
 
 job_id = "job_id"
 
-def test_job_start(api, ok):
+def test_job_start(api, ok, get_job):
+    status = 'status'
+    job = get_job(job_id)
+    assert status not in job
+
     r = api.post('/api/job/start/%s' % job_id)
 
     assert r.status_code == ok
     assert r.data == job_id
+
+    sleep(10)
+    j = get_job(job_id)
+    assert j[status] == 'drafting'
 
 def test_applying_for_job(api, ok, get_job, patch_job, fresh_job):
     fresh_job(job_id)
@@ -39,7 +47,7 @@ def test_applying_for_job_nd(api, ok, get_job, patch_job, fresh_job):
     assert r.status_code == ok
     assert r2.status_code == ok
     assert r3.status_code == ok
-    assert 'first' in r.data 
+    assert 'first' in r.data
     assert 'second' in r2.data
     assert 'third' in r3.data
     j = get_job(job_id)

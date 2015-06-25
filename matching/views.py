@@ -7,11 +7,15 @@ from firestone.models import job_queue_position, SOFT_LIMIT_PERIOD,\
 class StartJobView(APIView):
     def post(self, request, job_id):
         if not job_drafting(job_id):
+            print "ZZZ"
             c = (t.get_experts.s()
             | t.notify_experts.s(job_id)
+            | t.start_drafting.si(job_id)
             | t.start_hard_limit.si(job_id))
 
             c.delay()
+        else:
+            print "NEIS"
 
         return Response(job_id)
 
