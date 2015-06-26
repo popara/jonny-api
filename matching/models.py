@@ -40,5 +40,8 @@ def fe_expert_client(client):
 def fe_user_pick():
     return base('pick-expert')
 
+def full_url(rest):
+    return "https://jonnyinc.herokuapp.com%s" % rest
+
 def apply_for_job_url(job_id, user_id):
-    return reverse('apply_for_job', args=(job_id, user_id,))
+    return full_url(reverse('apply_for_job', args=(job_id, user_id,)))
