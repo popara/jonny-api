@@ -45,7 +45,7 @@ class ApplyForJobView(TemplateView):
             poz = job_queue_position(job)
             pos_word = position_word(poz)
             order_name = order_word(poz)
-            c = {'position':pos_word,'order': order_word}
+            c = {'position':pos_word,'order': order_name}
             context = merge(c, name)
             return render(request, self.template_success, context)
 
