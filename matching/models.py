@@ -20,8 +20,7 @@ def job_applied_status(job, user_id):
         (user_selected(job, user_id))
     done_not_selected = not selected
     done_selected = selected
-    print "in progres %s " % still_in_progress
-    print "done"
+    
     return {
         'in_progress': still_in_progress,
         'done_selected': done_selected,

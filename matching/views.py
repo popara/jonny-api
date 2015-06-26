@@ -27,7 +27,7 @@ class ApplyForJobView(TemplateView):
     template_full = "matching/full.html"
     template_already = "matching/already.html"
 
-    def post(self, request, job_id, user_id):
+    def get(self, request, job_id, user_id):
         job = get_job(job_id)
         expert = get_user(user_id)
         name = {'name': expert['first_name']}

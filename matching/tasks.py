@@ -15,7 +15,6 @@ from .emails import job_start_expert, job_done_client
 
 def dispatch_initial_email(job_id, expert, details):
     link = apply_for_job_url(job_id, expert['id'])
-    print link
     return job_start_expert(expert, details, link)
 
 @shared_task
@@ -72,7 +71,7 @@ def start_soft_limit(job_id, period):
 def soft_limit(job_id):
     job = get_job(job_id)
     user = get_user(job['owner'])
-    print job 
+    print job
     status = job['status']
 
     if status == JobStatus.drafting:

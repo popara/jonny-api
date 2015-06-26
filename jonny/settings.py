@@ -6,6 +6,9 @@ import dj_database_url
 def env(key):
     return os.environ.get(key, '')
 
+def str_bool(val):
+    return val is "True"
+
 BASE_DIR = os.path.dirname(os.path.dirname(__file__))
 
 
@@ -29,7 +32,8 @@ MR_WOLF_DEST_NO = "+34654715245"
 MR_WOLF_EMAIL = "mrwolf@jonnyibiza.com"
 MR_WOLF_EMAIL_DEST = "support@jonnyibiza.com"
 
-DEBUG = env('jonny_zora_debug')
+DEBUG = str_bool(env('jonny_zora_debug'))
+
 TEMPLATE_DEBUG = DEBUG
 
 ALLOWED_HOSTS = ['*']
