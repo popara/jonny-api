@@ -3,6 +3,7 @@ from rest_framework.test import APIClient
 from rest_framework import status
 from django.conf import settings
 from .firebase_fixutres import *
+from .game import *
 
 @pytest.fixture
 def api():

@@ -53,3 +53,9 @@ def merge_ids(ids, collection):
 
 def tstamp():
     return int(time() * 1000)
+
+def get_f(path):
+    def fn(id = None):
+        return FireRoot.get("/%s/" % path, id)
+
+    return fn

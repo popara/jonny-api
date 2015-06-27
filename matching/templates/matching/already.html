@@ -3,11 +3,13 @@
 {% block main %}
 <h1>Hi {{ name }},</h1>
 
+
 {% if in_progress %}
 <p>
     We have already registered your click.  You are {{ order }} to respond and we will notify you as soon as the client has made his selection.
 </p>
 {% endif %}
+
 
 {% if done_selected %}
 <p>
@@ -16,9 +18,21 @@
 </p>
 {% endif %}
 
+
 {% if done_not_selected %}
 <p>
   This client has selected a different local expert to work with.  Sorry this one didn't work out.  Good luck on the next one!
+</p>
+{% endif %}
+
+
+{% if idle %}
+<p>
+  We have already registered your click. You are {{ order }} to be shown to the client.
+</p>
+
+<p>
+  Unfortunatelly client didn't picked nobody yet. We are all waiting! 
 </p>
 {% endif %}
 

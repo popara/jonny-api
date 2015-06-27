@@ -8,4 +8,8 @@ If you'd like to accept this client, click this link to accept:
 Remember: If you accept this client, you should be available to call him/her immediately upon matching to determine his/her needs.  And you should be available to service the client during his/her travel dates.
 
 New client details below:
-{{ details }}
+{% for wish in details %}
+   {{ wish.question }}
+   {{ wish.answer_str }}
+   --------
+{% endfor %}

@@ -24,5 +24,9 @@ Remember: If you accept this client, you should be available to call him/her imm
 </p>
 
 <blockquote>
-  {{ details }}
+    {% for wish in details %}
+        <p>{{ wish.question }}</p>
+        <h4>{{ wish.answer_str }}</h4>
+    {% endfor %}
+
 </blockquote>

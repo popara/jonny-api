@@ -9,7 +9,8 @@ from firestone.models import job_application, apply_for_job as afj, \
     finish_drafting, has_space, \
     HARD_LIMIT_PERIOD, SOFT_LIMIT_PERIOD, QUEUE_SIZE
 
-from .models import JobStatus, apply_for_job_url, fe_user_pick
+from .models import JobStatus, apply_for_job_url, fe_user_pick, \
+    get_details
 from .emails import job_start_expert, job_done_client
 
 
@@ -86,7 +87,8 @@ def get_experts():
 
 @shared_task
 def notify_experts(experts, job_id):
-    details = {}
+    job = get_job(job_id)
+    details = get_details(job['owner'])
     for expert in experts:
         dispatch_initial_email(job_id, expert, details)
 
