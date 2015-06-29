@@ -105,7 +105,11 @@ def get_anon(user_id):
     return get_user(user_id)['anon']
 
 def get_anons_answers(anon_id):
-    return mids(get_f('answers')(anon_id))
+    a = get_f('answers')(anon_id)
+    if a is not None:
+        return mids(a)
+    else:
+        return []
 
 
 def get_questions():

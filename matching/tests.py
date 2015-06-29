@@ -207,7 +207,7 @@ def test_answer_as_string(typed_answers):
     AT = typed_answers
     keys = AT.keys()
     o = AT['checklist']['value']
-    t = 'checklist'
+    t = 'check-list'
     v  = answer_as_str(o, t)
     assert v == str_join(', ', o)
 

@@ -7,8 +7,8 @@ def questions():
     q_dates = dict(id='dates', type='dates', text='When?')
     q_roling = dict(id='rolling', type='rolling', text='How much?')
 
-    q_checklist = dict(id='checklist', type='checklist', text='Check List')
-    q_checklist_2 = dict(id='checklist2', type='checklist', text='Chec list 2')
+    q_checklist = dict(id='checklist', type='check-list', text='Check List')
+    q_checklist_2 = dict(id='checklist2', type='check-list', text='Chec list 2')
     q_bingo = dict(id='bingo', type='bingo', text='Bingo')
     q_freeform = dict(id='freeform', type='freeform', text='Whatever?')
     q_freeform_2 = dict(id='freeform2', type='freeform', text='Free')
