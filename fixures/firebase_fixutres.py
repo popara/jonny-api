@@ -7,9 +7,8 @@ from firestone.models import apply_for_job
 
 @pytest.fixture
 def fire_app(test_firebase):
-    settings.FIREBASE = 'jonny-test'
-    return f.FirebaseApplication(fb_url('jonny-test'))
-
+    fauth = f.FirebaseAuthentication(settings.FIREBASE_SECRET, settings.MR_WOLF_EMAIL, admin=True, debug=True)
+    return f.FirebaseApplication(fb_url(settings.FIREBASE), fauth)
 
 @pytest.fixture
 def available_experts(fire_app):

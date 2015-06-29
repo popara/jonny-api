@@ -40,7 +40,7 @@ pytest==2.7.0
 pytest-django==2.8.0
 pytest-pythonpath==0.6
 python-dateutil==2.4.2
--e git://github.com/jayd3e/python-firebase@574b61e93b23f37e70e85ee003edd70f9d52649c#egg=python_firebase-master
+python-firebase==1.2
 python-google-places==1.0.0
 pytz==2015.4
 redis==2.10.3

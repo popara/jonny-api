@@ -7,7 +7,7 @@ def env(key):
     return os.environ.get(key, '')
 
 def str_bool(val):
-    return val is "True"
+    return val == "True"
 
 BASE_DIR = os.path.dirname(os.path.dirname(__file__))
 
@@ -24,16 +24,17 @@ EMAIL_BACKEND = "sgbackend.SendGridBackend"
 SENDGRID_USER = env('SG_USER')
 SENDGRID_PASSWORD = env('SG_PASSWORD')
 FIREBASE = env('FIREBASE')
+FIREBASE_SECRET = env('FIREBASE_SECRET')
 TWILIO_SID = env('TWILIO_ACCOUNT_SID')
 TWILIO_TOKEN = env('TWILIO_AUTH_TOKEN')
 TWILIO_DEFAULT_SENDER = "+34931071527"
 
 MR_WOLF_DEST_NO = "+34654715245"
-MR_WOLF_EMAIL = "mrwolf@jonnyibiza.com"
+MR_WOLF_EMAIL = env("MR_WOLF_EMAIL")
 MR_WOLF_EMAIL_DEST = "support@jonnyibiza.com"
+MR_WOLF_PASSWORD = env('MR_WOLF_PASSWORD')
 
 DEBUG = str_bool(env('jonny_zora_debug'))
-
 TEMPLATE_DEBUG = DEBUG
 
 ALLOWED_HOSTS = ['*']
@@ -194,3 +195,7 @@ HARD_LIMIT_PERIOD = 30 * 60 # 30 mins in seconds
 SOFT_LIMIT_PERIOD = 5 * 60 # 5 mins
 
 QUEUE_SIZE = 3
+
+
+
+# -e git://github.com/jayd3e/python-firebase@574b61e93b23f37e70e85ee003edd70f9d52649c#egg=python_firebase-master

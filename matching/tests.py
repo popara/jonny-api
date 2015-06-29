@@ -22,14 +22,15 @@ def job_apply(api, job_id, user_id):
     return api.get('/api/job/apply/%s/%s' % (job_id, user_id))
 
 
-def test_job_start(api, ok, get_job, super_fresh_job):
+def test_job_start(api, ok, get_job, super_fresh_job, fire_app):
     status = 'status'
+
     super_fresh_job(job_id)
     job = get_job(job_id)
     assert status not in job
 
     r = job_start(api, job_id)
-    sleep(10)
+    sleep(14)
     assert r.status_code == ok
     assert r.data == job_id
 
@@ -242,3 +243,7 @@ def test_answer_as_string(typed_answers):
     o = AT['freeform']['value']
     v = answer_as_str(o, 'freeform')
     assert v == 'Knock the blast'
+
+def test_dummy(fire_app):
+    assert fire_app.get('/levels', None)
+    assert fire_app.get('/users', 'simplelogin:190')

@@ -11,7 +11,10 @@ APPLICANTS_KEY = 'applicants'
 def fb_url(base):
     return "https://%s.firebaseio.com/" % base
 
-FireRoot = firebase.FirebaseApplication(fb_url(settings.FIREBASE))
+fauth = firebase.FirebaseAuthentication(settings.FIREBASE_SECRET, settings.MR_WOLF_EMAIL, admin=True)
+FireRoot = firebase.FirebaseApplication(fb_url(settings.FIREBASE), fauth)
+
+
 
 def get_job(id):
     return FireRoot.get('/jobs', id)
