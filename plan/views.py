@@ -25,11 +25,10 @@ class ChargeView(APIView):
         source=token,
       )
 
-
       charge = stripe.Charge.create(
         amount=amount,
         currency=currency,
-        source=token,
+        customer=customer.id,
         description=desc,
       )
       return Response(status.HTTP_200_OK)
