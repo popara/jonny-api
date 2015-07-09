@@ -27,6 +27,7 @@ def put_job(id, data):
 
 def get_user(id):
     u = FireRoot.get('/users', id)
+    print id 
     u['id'] = id
     return u
 
@@ -37,10 +38,8 @@ def get_backup_experts():
 
 
 def get_experts():
-    logger.info(FireRoot.dsn)
     exp_ids = FireRoot.get('/experts', None)
     us = [get_user(k) for k in exp_ids.keys()]
-    print us
     return filter(lambda u: u['available'], us)
 
 

@@ -15,8 +15,17 @@ class ChargeView(APIView):
     desc = "Charging for a plan"
 
     token = request.data['token']
+    email = request.data['email']
+    name = request.data['name']
 
     try:
+      customer = stripe.Customer.create(
+        description=name,
+        email=email,
+        source=token,
+      )
+
+
       charge = stripe.Charge.create(
         amount=amount,
         currency=currency,
