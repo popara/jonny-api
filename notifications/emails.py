@@ -18,16 +18,9 @@ def our_email_template(to, subject, template, context):
 def sender():
     return 'mrwolf@jonnyibiza.com'
 
-def job_start_expert(expert, details, link):
-    return our_email_template([expert['email']], \
-        S.expert_job_start_subject, \
-        "matching/emails/expert_job_start", \
-        dict(expert=expert, details=details, link=link)
-     )
-
-def job_done_client(client, link):
-    return our_email_template([client['email']], \
-        S.client_job_done, \
-        "matching/emails/client_job_done", \
-        dict(name=client['first_name'], link=link)
+def user_registration(name, email, pwd, link):
+    return our_email_template([email], \
+        S.client_register_subject, \
+        "notifications/emails/reg", \
+        dict(name=name, email=email, pwd=pwd, link=link)
     )

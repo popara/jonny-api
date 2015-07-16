@@ -51,12 +51,12 @@ INSTALLED_APPS = (
     'django.contrib.staticfiles',
     'sslserver',
     'matching',
+    'notifications',
     'plan',
     'storages',
     'rest_framework',
     'corsheaders',
 )
-
 MIDDLEWARE_CLASSES = (
     'corsheaders.middleware.CorsMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',

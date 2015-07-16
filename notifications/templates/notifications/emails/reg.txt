@@ -1,0 +1,16 @@
+Hi {{ name }},
+
+Thank you for visiting JonnyIbiza.com. We are excited to connect you with one of our many local experts so you can make the most out of your trip. Your account details are as follows:
+
+Login: {{ email }}
+Password: {{ pwd }}
+
+Login at {{ url }}
+
+If you have any questions, please feel free to reach out to us at mrwolf@jonnyibiza.com.
+
+
+Happy Travels!
+Jonny Ibiza Team
+
+PS: Your email address has NOT be added to a mailing list, and will not be shared with any 3rd parties

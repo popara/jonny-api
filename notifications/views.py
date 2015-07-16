@@ -3,6 +3,7 @@ from rest_framework.response import Response
 from django.core.mail import send_mail
 from django.conf import settings
 from twilio.rest import TwilioRestClient
+from emails import user_registration
 import logging
 logger = logging.getLogger('notifications')
 
@@ -31,7 +32,7 @@ def mrwolf_email_dest():
     return settings.MR_WOLF_EMAIL_DEST
 
 def fe(cat, link):
-    return "https://www.jonnyibiza.com/%s/%s" % (cat, link)
+    return "https://jonnyibiza.com/%s/%s" % (cat, link)
 
 def sms_to(number, text):
     client = get_twilio_client()
@@ -45,16 +46,12 @@ class NotifyOnRegistration(APIView):
         client_first_name = request.data["client_first_name"]
         client_name = request.data["client_name"]
         client_email = request.data["client_email"]
+        client_pwd = request.data["ref"]
+        link = fe('app', 'login')
 
-        log("New registered user")
-        # To Traveler
-        link = client_email
-        subject = "Welcome to Jonny Ibiza"
-        body = "Hi %s \n\n You have successfully registered with jonnyibiza.com. \n\n"\
-            "Your login is: %s \n\n Cheers from Ibiza! \n\n Jonny Ibiza" \
-            % (client_first_name, link)
+        log("New registered user %s " % client_email)
 
-        send_mail(subject, body, e_from, [client_email])
+        user_registration(client_first_name, client_email, client_pwd, link)
         log_mail(client_email)
 
         # To Mr. Wolf

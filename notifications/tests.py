@@ -10,11 +10,12 @@ MR_WOLF_EMAIL = "mrwolf@jonnyibiza.com"
 MR_WOLF_EMAIL_DEST = "support@jonnyibiza.com"
 EXPERT_PHONE_NO = "+15005550012"
 CLIENT_ID = "simleid:1"
-
+CLIENT_REF = "coconut123"
 TEST_SID = "ACad0296f1fbf1bbd4901a869f13382f0f"
 TEST_TOKEN = "f642e0a9da05a2cc1f6a7de4a88036ee"
 TEST_NO = "+15005550006"
 TEST_DEST_NO = "+15005550012"
+
 
 def test_user_registered(api, ok):
     # client_name
@@ -22,6 +23,7 @@ def test_user_registered(api, ok):
         "client_name": CLIENT_NAME,
         "client_first_name": CLIENT_NAME,
         "client_email": CLIENT_EMAIL,
+        "ref": CLIENT_REF,
     })
 
     assert r.status_code == ok
