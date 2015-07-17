@@ -22,5 +22,5 @@ def user_registration(name, email, pwd, link):
     return our_email_template([email], \
         S.client_register_subject, \
         "notifications/emails/reg", \
-        dict(name=name, email=email, pwd=pwd, link=link)
+        dict(name=name, email=email, pwd=pwd, link=link, mrwolf=sender()), \
     )

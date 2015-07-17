@@ -46,12 +46,11 @@ class NotifyOnRegistration(APIView):
         client_first_name = request.data["client_first_name"]
         client_name = request.data["client_name"]
         client_email = request.data["client_email"]
-        client_pwd = request.data["ref"]
+        client_ref = request.data["ref"]
         link = fe('app', 'login')
-
         log("New registered user %s " % client_email)
 
-        user_registration(client_first_name, client_email, client_pwd, link)
+        user_registration(client_first_name, client_email, client_ref, link)
         log_mail(client_email)
 
         # To Mr. Wolf
@@ -63,9 +62,6 @@ class NotifyOnRegistration(APIView):
         log_mail(mrwolf_email_dest())
 
         return Response("ok")
-
-
-
 
 class NotifyOnUserPurchase(APIView):
     def post(self, request):

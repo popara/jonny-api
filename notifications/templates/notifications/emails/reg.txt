@@ -5,9 +5,9 @@ Thank you for visiting JonnyIbiza.com. We are excited to connect you with one of
 Login: {{ email }}
 Password: {{ pwd }}
 
-Login at {{ url }}
+Login at {{ link }}
 
-If you have any questions, please feel free to reach out to us at mrwolf@jonnyibiza.com.
+If you have any questions, please feel free to reach out to us at {{ mrwolf }}.
 
 
 Happy Travels!

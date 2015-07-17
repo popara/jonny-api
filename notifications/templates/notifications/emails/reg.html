@@ -1,5 +1,5 @@
 <h2>
-  Hi <Customer Name>,
+  Hi {{ name }},
 </h2>
 
 
@@ -9,14 +9,14 @@
 
 <p>
   <div>
-    Login: <Login ID>
+    Login: <strong>{{ email }}</strong>
   </div>
 
   <div>
-    Password: <Password>
+    Password: <strong>{{ ref }}</strong>
   </div>
   <p>
-    Login at <a href="{{ url }}">{{ url }}</a>
+    Login at <a href="{{ link }}">{{ link }}</a>
   </p>
 </p>
 
@@ -24,7 +24,7 @@
 
 <p>
   If you have any questions, please feel free to reach out to us at
-  <a href="mailto:mrwolf@jonnyibiza.com">mrwolf@jonnyibiza.com</a>.
+  <a href="mailto:{{ mrwolf }}">{{ mrwolf }}</a>.
 </p>
 
 

@@ -33,6 +33,9 @@ def test_user_registered(api, ok):
     assert m1.to == [CLIENT_EMAIL]
     assert m2.to == [MR_WOLF_EMAIL_DEST]
 
+    assert CLIENT_REF in m1.body
+    assert CLIENT_NAME in m1.body
+    assert 'https://jonnyibiza.com/app/login' in m1.body
 
 def test_user_charged(api, ok):
     # Email and SMS  to expert
