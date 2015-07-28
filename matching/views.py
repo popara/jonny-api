@@ -10,6 +10,9 @@ from firestone.models import job_queue_position, SOFT_LIMIT_PERIOD,\
     has_space, get_job, position_word, job_drafting, has_applied, \
     order_word
 
+from cache_model import get_next
+
+
 class StartJobView(APIView):
     def post(self, request, job_id):
         if not job_drafting(job_id):
@@ -51,5 +54,11 @@ class ApplyForJobView(TemplateView):
 
         return render(request, self.template_full, name, status=500)
 
+
+class RoundRobinView(APIView):
+    def get(self, request):
+        return Response(get_next())
+
 start_job = StartJobView.as_view()
 job_apply = ApplyForJobView.as_view()
+round_robin = RoundRobinView.as_view()

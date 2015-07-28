@@ -196,6 +196,17 @@ SOFT_LIMIT_PERIOD = 5 * 60 # 5 mins
 
 QUEUE_SIZE = 3
 
+# CACHE
 
+CACHES = {
+    "default": {
+        "BACKEND": "django_redis.cache.RedisCache",
+        "LOCATION": env("REDISGREEN_URL"),
+        "OPTIONS": {
+            "CLIENT_CLASS": "django_redis.client.DefaultClient",
+        }
+    }
+}
 
-# -e git://github.com/jayd3e/python-firebase@574b61e93b23f37e70e85ee003edd70f9d52649c#egg=python_firebase-master
+SESSION_ENGINE = "django.contrib.sessions.backends.cache"
+SESSION_CACHE_ALIAS = "default"

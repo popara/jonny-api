@@ -1,6 +1,7 @@
 import pytest
 from rest_framework.test import APIClient
 from rest_framework import status
+from django.core.cache import cache as ca
 from django.conf import settings
 from .firebase_fixutres import *
 from .game import *
@@ -20,3 +21,7 @@ def settings():
 
 def checkEqual(L1, L2):
     return len(L1) == len(L2) and sorted(L1) == sorted(L2)
+
+@pytest.fixture
+def cache():
+    return ca 
