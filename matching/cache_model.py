@@ -1,7 +1,7 @@
 from django.core.cache import cache
 ROBIN_STATE_KEY = "ROBIN_STATE_KEY"
 ROBIN_LIMIT_KEY = "ROBIN_LIMIT_KEY"
-ROBIN_LIMIT = 3
+ROBIN_LIMIT = 4
 ROBIN_START = 0
 
 def get_current():
