@@ -56,6 +56,7 @@ INSTALLED_APPS = (
     'storages',
     'rest_framework',
     'corsheaders',
+    'round_robin',
 )
 MIDDLEWARE_CLASSES = (
     'corsheaders.middleware.CorsMiddleware',
@@ -81,19 +82,11 @@ CORS_ORIGIN_WHITELIST = (
     'localhost:3333',
     'localhost:3000',
     '127.0.0.1:3000',
-    'jonnyibiza.com',
-    'www.jonnyibiza.com',
-    'experts.jonnyibiza.com',
-    'mrwolf.jonnyibiza.com',
     '127.0.0.1:8000',
-    'development.jonnyinc.divshot.io',
-    'staging.jonnyinc.divshot.io',
-    'jonnyinc.divshot.io',
-    'burning-torch-1428.firebaseapp.com',
+    'jonnyibiza.com',
     'jonnyibiza.firebaseapp.com',
-    'development.jonny-experts.divshot.io',
-    'staging.jonny-experts.divshot.io',
-    'jonny-experts.divshot.io',
+    'freeibiza.trips',
+    'freeibiza.firebaseapp.com',
 )
 
 CORS_ORIGIN_ALLOW_ALL = False

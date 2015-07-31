@@ -55,10 +55,6 @@ class ApplyForJobView(TemplateView):
         return render(request, self.template_full, name, status=500)
 
 
-class RoundRobinView(APIView):
-    def get(self, request):
-        return Response(get_next())
 
 start_job = StartJobView.as_view()
 job_apply = ApplyForJobView.as_view()
-round_robin = RoundRobinView.as_view()

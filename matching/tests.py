@@ -10,7 +10,6 @@ import fixures
 from .models import JobStatus, job_status, get_questions, get_anon, \
     get_anons_answers, get_details, zipthem, answer_as_str
 
-from cache_model import get_next, get_current, increment_state, ROBIN_STATE_KEY
 
 
 job_id = "simplelogin:190"
@@ -250,50 +249,3 @@ def test_answer_as_string(typed_answers):
 def test_dummy(fire_app):
     assert fire_app.get('/levels', None)
     assert fire_app.get('/users', 'simplelogin:190')
-
-
-def test_current(cache):
-    assert get_current() is None or get_current() is 0
-    cache.set(ROBIN_STATE_KEY, 1)
-    assert get_current() is 1
-
-def test_incrementing():
-    start = 1
-    assert increment_state(start) is start+1
-
-    curr =  get_current()
-    assert curr is start+1
-
-    assert increment_state(curr) is curr+1
-    assert get_current() is curr+1
-
-def test_rounding():
-    start = 0
-    increment_state(start)
-
-    assert get_next() is 2
-    assert get_next() is 0
-    assert get_next() is 1
-    assert get_next() is 2
-    assert get_next() is 0
-    assert get_next() is 1
-
-
-def test_api_rounding(api, cache):
-    cache.delete("ROBIN_LIMIT_KEY")
-    cache.delete("ROBIN_STATE_KEY")
-
-    result = api.get('/api/round_robin')
-
-    assert result.data is 0
-
-    result = api.get('/api/round_robin')
-
-    assert result.data is 1
-
-    result = api.get('/api/round_robin')
-
-    assert result.data is 2
-    result = api.get('/api/round_robin')
-
-    assert result.data is 0

@@ -16,4 +16,5 @@ urlpatterns = patterns('',
     url(r'^api/notifications/jonny_chat', 'notifications.views.jonny_chat'),
     url(r'^api/notifications/user_chat', 'notifications.views.user_chat'),
     url(r'^api/', include('matching.urls')),
+    url(r'^api/', include('round_robin.urls')),
 )
