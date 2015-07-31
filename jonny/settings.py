@@ -85,7 +85,7 @@ CORS_ORIGIN_WHITELIST = (
     '127.0.0.1:8000',
     'jonnyibiza.com',
     'jonnyibiza.firebaseapp.com',
-    'freeibiza.trips',
+    'freeibiza.tips',
     'freeibiza.firebaseapp.com',
 )
 
