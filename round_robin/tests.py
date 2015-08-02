@@ -1,50 +1,35 @@
 from fixures import *
-from cache_model import get_next, get_current, increment_state, ROBIN_STATE_KEY
+from models import get_next, RoundRobin
 
-def test_current(cache):
-    assert get_current() is None or get_current() is 0
-    cache.set(ROBIN_STATE_KEY, 1)
-    assert get_current() is 1
+@pytest.fixture
+def roundrobin():
+    return RoundRobin.objects.create(state=0, limit=4)
 
-def test_incrementing():
-    start = 1
-    assert increment_state(start) is start+1
+@pytest.mark.django_db
+def test_rounding(roundrobin):
+    r = roundrobin.id
 
-    curr =  get_current()
-    assert curr is start+1
+    assert get_next(r) is 1
+    assert get_next(r) is 2
+    assert get_next(r) is 3
+    assert get_next(r) is 0
+    assert get_next(r) is 1
+    assert get_next(r) is 2
+    assert get_next(r) is 3
+    assert get_next(r) is 0
 
-    assert increment_state(curr) is curr+1
-    assert get_current() is curr+1
+@pytest.mark.django_db
+def test_api_rounding(api, roundrobin):
+    url = '/api/round_robin/%s' % roundrobin.id
 
-def test_rounding():
-    start = 0
-    increment_state(start)
-
-    assert get_next() is 2
-    assert get_next() is 3
-    assert get_next() is 0
-    assert get_next() is 1
-    assert get_next() is 2
-    assert get_next() is 3
-    assert get_next() is 0
-    assert get_next() is 1
-
-
-def test_api_rounding(api, cache):
-    cache.delete("ROBIN_LIMIT_KEY")
-    cache.delete("ROBIN_STATE_KEY")
-
-    result = api.get('/api/round_robin')
-    assert result.data is 0
-
-    result = api.get('/api/round_robin')
+    result = api.get(url)
     assert result.data is 1
 
-    result = api.get('/api/round_robin')
+    result = api.get(url)
     assert result.data is 2
 
-    result = api.get('/api/round_robin')
+    result = api.get(url)
     assert result.data is 3
 
-    result = api.get('/api/round_robin')
+    result = api.get(url)
     assert result.data is 0

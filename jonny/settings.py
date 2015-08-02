@@ -188,18 +188,3 @@ HARD_LIMIT_PERIOD = 30 * 60 # 30 mins in seconds
 SOFT_LIMIT_PERIOD = 5 * 60 # 5 mins
 
 QUEUE_SIZE = 3
-
-# CACHE
-
-CACHES = {
-    "default": {
-        "BACKEND": "django_redis.cache.RedisCache",
-        "LOCATION": env("REDISGREEN_URL"),
-        "OPTIONS": {
-            "CLIENT_CLASS": "django_redis.client.DefaultClient",
-        }
-    }
-}
-
-SESSION_ENGINE = "django.contrib.sessions.backends.cache"
-SESSION_CACHE_ALIAS = "default"
