@@ -10,9 +10,6 @@ from firestone.models import job_queue_position, SOFT_LIMIT_PERIOD,\
     has_space, get_job, position_word, job_drafting, has_applied, \
     order_word
 
-from cache_model import get_next
-
-
 class StartJobView(APIView):
     def post(self, request, job_id):
         if not job_drafting(job_id):
